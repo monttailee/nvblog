@@ -1,0 +1,20 @@
+{
+  "apps" : [
+    {
+      "name"      : "h5",
+      "cwd"       : "/home/q/system/h5",
+      "script"    : "run.js",
+      "exec_mode" : "cluster",
+      "node_args" : "--harmony",
+      "env"       : {
+        "NODE_ENV": "production"
+      },
+      "log_date_format" : "YYYY-MM-DD HH:mm Z",
+      "error_file"      : "/home/q/system/h5/logs/error.log",
+      "out_file"        :   "/home/q/system/h5/logs/out.log",
+      "pid_file"        :   "/home/q/system/h5/logs/pid.log",
+      "max_memory_restart":   "400M",
+      "instances":   "max"
+    }
+  ]
+}

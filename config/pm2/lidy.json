@@ -1,0 +1,21 @@
+{
+  "apps" : [
+    {
+      "name"      : "blog",
+      "cwd"       : "/Users/lidymac/Project/blog",
+      "script"    : "run.js",
+      "exec_mode" : "cluster",
+      "node_args" : "--harmony",
+      "watch"     : ["server"],
+      "env"       : {
+        "NODE_ENV": "development.lidy"
+      },
+      "log_date_format" : "YYYY-MM-DD HH:mm Z",
+      "error_file"      : "/Users/lidymac/Project/blog/logs/error.log",
+      "out_file"        :   "/Users/lidymac/Project/blog/logs/out.log",
+      "pid_file"        :   "/Users/lidymac/Project/blog/logs/pid.log",
+      "max_memory_restart":   "400M",
+      "instances":   "max"
+    }
+  ]
+}
