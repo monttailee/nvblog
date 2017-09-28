@@ -6,6 +6,7 @@ node_modules/
 logs/
 commands/
 .idea/
+.idea/*
 
 public/static/less/sprites
 public/static/image/common/sprite.png

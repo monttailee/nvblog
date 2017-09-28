@@ -1,31 +1,28 @@
-const koa = require('koa');
-const url = require('url');
-const path = require('path');
-const fs = require('fs');
-const convert = require('koa-convert');
-const onerror = require('koa-onerror');
-const serve = require('koa-static');
-const mongoose = require('mongoose');
-
-const historyApiFallback = require('./middleware/historyApiFallback');
-const config = require('./configs');
-const middleware = require('./middleware');
-const api = require('./api');
-
+import koa from 'koa';
+import convert from 'koa-convert';
+import onerror from 'koa-onerror';
+import serve from 'koa-static';
+import mongoose from 'mongoose';
+import historyApiFallback from './middleware/historyApiFallback';
+import config from './configs';
+import middleware from './middleware';
+import api from './api';
+import url from 'url';
+import path from 'path';
+import fs from 'fs';
 import { createBundleRenderer } from 'vue-server-renderer';
 const resolve = file => path.resolve(__dirname, file);
 
 mongoose.Promise = Promise;
-
 // connect mongodb
 mongoose.connect(config.mongodb.url, config.mongodbSecret);
 mongoose.connection.on('error', console.error);
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 const router = require('koa-router')();
 const routerInfo = require('koa-router')();
 
-const app = koa();
+const app = new koa();
 
 // middleware
 app.use(middleware());
@@ -37,7 +34,7 @@ app.use(api());
 app.use(serve('./client/static'));
 
 // 创建渲染器，开启组件缓存
-let renderer;
+let renderer
 
 function createRenderer(bundle, template) {
     return createBundleRenderer(bundle, {
@@ -56,9 +53,9 @@ routerInfo.get('*', async(ctx, next) => {
         return ctx.body = 'waiting for compilation... refresh in a moment.';
     }
     return next();
-})
+});
 
-app.use(routerInfo.routes())
+app.use(routerInfo.routes());
 
 // 对路由admin直接走historyApiFallback,而不是用服务端渲染
 app.use(convert(historyApiFallback({
@@ -69,7 +66,7 @@ app.use(convert(historyApiFallback({
         { from: /^\/admin\/login/, to: '/admin.html' },
     ],
     path: /^\/admin/
-})))
+})));
 
 if (isProd) {
     // 生产环境下直接读取构造渲染器
@@ -113,7 +110,7 @@ router.get('*', async(ctx, next) => {
         })
     }
     ctx.body = await renderToStringPromise();
-})
+});
 
 app
     .use(router.routes())
