@@ -3,10 +3,12 @@ import convert from 'koa-convert';
 import onerror from 'koa-onerror';
 import serve from 'koa-static';
 import mongoose from 'mongoose';
+
 import historyApiFallback from './middleware/historyApiFallback';
 import config from './configs';
 import middleware from './middleware';
 import api from './api';
+
 import url from 'url';
 import path from 'path';
 import fs from 'fs';
@@ -34,7 +36,7 @@ app.use(api());
 app.use(serve('./client/static'));
 
 // 创建渲染器，开启组件缓存
-let renderer
+let renderer;
 
 function createRenderer(bundle, template) {
     return createBundleRenderer(bundle, {
