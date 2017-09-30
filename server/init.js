@@ -4,15 +4,16 @@ import onerror from 'koa-onerror';
 import serve from 'koa-static';
 import mongoose from 'mongoose';
 
-import historyApiFallback from './middleware/historyApiFallback';
-import config from './configs';
-import middleware from './middleware';
-import api from './api';
-
 import url from 'url';
 import path from 'path';
 import fs from 'fs';
 import { createBundleRenderer } from 'vue-server-renderer';
+
+import historyApiFallback from './middleware/historyApiFallback';
+import config from '../config';
+import middleware from './middleware';
+import api from './api';
+
 const resolve = file => path.resolve(__dirname, file);
 
 mongoose.Promise = Promise;
