@@ -6,7 +6,7 @@ const routers = importDir('./routers');
 
 export default function routerApi() {
     const router = new Router({
-        prefix: ENV_CONFIG.app.baseApi
+        prefix: ENV_CONFIG.app.baseApi  //路由前缀
     });
     Object.keys(routers).forEach(name => {
         return routers[name](router)

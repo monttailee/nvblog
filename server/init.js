@@ -12,8 +12,9 @@ import { createBundleRenderer } from 'vue-server-renderer';
 import historyApiFallback from './middleware/historyApiFallback';
 import middleware from './middleware/index.js';
 import routerApi from './router.js';
-const glob = require('glob');
+//const glob = require('glob');
 const router = require('koa-router')();
+const routerInfo = require('koa-router')();
 
 //config
 const SERVER_ENV = process.env.NODE_ENV;
@@ -39,19 +40,19 @@ app.use(staticServer(resolve('../client/static')));
 //router
 app.use(routerApi());
 
-// 创建渲染器，开启组件缓存
-let renderer;
-// 提示webpack还在工作
-router.get('*', async(ctx, next) => {
+//创建渲染器，开启组件缓存
+let renderer = void 0;
+//提示webpack还在工作
+routerInfo.get('*', async(ctx, next) => {
     if (!renderer) {
         return ctx.body = 'waiting for compilation... refresh in a moment.';
     }
     return next();
 });
 
-app.use(router.routes());
+app.use(routerInfo.routes());
 
-// 对路由admin直接走historyApiFallback,而不是用服务端渲染
+//对路由admin直接走historyApiFallback,而不是用服务端渲染
 app.use(convert(historyApiFallback({
     verbose: true,
     index: '/admin.html',
@@ -74,19 +75,19 @@ function createRenderer(bundle, template) {
 }
 
 if (isProd) {
-    // 生产环境下直接读取构造渲染器
+    //生产环境下直接读取构造渲染器
     const bundle = require('../client/dist/vue-ssr-server-bundle.json');
     const template = fs.readFileSync(resolve('../client/dist/front.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
     app.use(staticServer('./client/dist'));
 } else {
-    // 开发环境下使用hot/dev middleware拿到bundle与template
+    //开发环境下使用hot/dev middleware拿到bundle与template
     require('../client/build/setup-dev-server')(app, (bundle, template) => {
         renderer = createRenderer(bundle, template)
     })
 }
 
-// 流式渲染
+//流式渲染
 router.get('*', async(ctx, next) => {
     let res = ctx.res;
     let req = ctx.req;
@@ -121,9 +122,9 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-// create server
+//create server
 app.listen(ENV_CONFIG.app.port, () => {
-    console.log('The server is running at http://localhost:' + ENV_CONFIG.app.port);
+    console.log('Koa2 server listening on port ' + ENV_CONFIG.app.port);
 });
 
 export default app;
