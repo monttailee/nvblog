@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import config from '../configs/';
 export default async(ctx, next) => {
     // console.log(ctx.get('Authorization'));
     const authorization = ctx.get('Authorization');
@@ -9,7 +8,7 @@ export default async(ctx, next) => {
     const token = authorization.split(' ')[1];
     let tokenContent;
     try {
-        tokenContent = await jwt.verify(token, config.jwt.secret);
+        tokenContent = await jwt.verify(token, ENV_CONFIG.jwt.secret);
     } catch (err) {
         if ('TokenExpiredError' === err.name) {
             ctx.throw(401, 'token expired,请及时本地保存数据！');
