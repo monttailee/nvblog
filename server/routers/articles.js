@@ -1,5 +1,5 @@
-import * as $ from '../../controllers/articles_controller.js'
-import verify from '../../middleware/verify.js'
+import * as $ from '../controllers/articles_control.js'
+import verify from '../middleware/verify.js'
 
 
 export default async(router) => {

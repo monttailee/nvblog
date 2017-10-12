@@ -1,7 +1,4 @@
 import Article from '../models/article.js'
-import md5 from "md5";
-import jwt from 'jsonwebtoken'
-import config from '../configs/'
 
 export async function createArticle(ctx) {
     const title = ctx.request.body.title;

@@ -1,6 +1,4 @@
 import Tag from '../models/tag.js'
-import jwt from 'jsonwebtoken'
-import config from '../configs/'
 
 export async function createTag(ctx) {
     const tagName = ctx.request.body.name;
@@ -10,12 +8,12 @@ export async function createTag(ctx) {
     const tag = await Tag.findOne({ name: tagName }).catch(err => {
         ctx.throw(500, '服务器错误')
     });
-    console.log(tag)
+    console.log(tag);
     if (tag !== null) {
         ctx.body = {
             success: true,
             tag: tag
-        }
+        };
         return;
     }
     const newTag = new Tag({

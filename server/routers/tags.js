@@ -1,5 +1,5 @@
-import * as $ from '../../controllers/tags_controller.js'
-import verify from '../../middleware/verify.js'
+import * as $ from '../controllers/tags_control.js'
+import verify from '../middleware/verify.js'
 
 export default async(router) => {
     router.post('/tags', verify, $.createTag)

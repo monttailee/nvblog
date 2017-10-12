@@ -10,8 +10,9 @@ import fs from 'fs';
 import { createBundleRenderer } from 'vue-server-renderer';
 
 import historyApiFallback from './middleware/historyApiFallback';
-import middleware from './middleware/index';
-import api from './api';
+import middleware from './middleware/index.js';
+import routerApi from './router.js';
+const glob = require('glob');
 const router = require('koa-router')();
 
 //config
@@ -35,8 +36,8 @@ onerror(app);
 //静态资源
 app.use(staticServer(resolve('../client/static')));
 
-// api/router
-app.use(api());
+//router
+app.use(routerApi());
 
 // 创建渲染器，开启组件缓存
 let renderer;
