@@ -76,7 +76,7 @@ function createRenderer(bundle, template) {
 
 if (isProd) {
     //生产环境下直接读取构造渲染器
-    const bundle = require('../client/dist/vue-ssr-server-bundle.json');
+    const bundle = require('../client/dist/vue-ssr-api-bundle.json');
     const template = fs.readFileSync(resolve('../client/dist/front.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
     app.use(staticServer('./client/dist'));
@@ -122,9 +122,9 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-//create server
+//create api
 app.listen(ENV_CONFIG.app.port, () => {
-    console.log('Koa2 server listening on port ' + ENV_CONFIG.app.port);
+    console.log('Koa2 api listening on port ' + ENV_CONFIG.app.port);
 });
 
 export default app;
