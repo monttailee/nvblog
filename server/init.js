@@ -80,13 +80,13 @@ app.use(convert(historyApiFallback({
 
 if (isProd) {
     //生产环境下直接读取构造渲染器
-    const bundle = require('../client/dist/vue-ssr-api-bundle.json');
+    const bundle = require('./vue-ssr-api-bundle.json');
     const template = fs.readFileSync(resolve('../client/dist/front.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
     app.use(staticServer('./client/dist'));
 } else {
     //开发环境下使用hot/dev middleware拿到bundle与template
-    require('../client/build/setup-dev-server')(app, (bundle, template) => {
+    require('./setup-dev-server')(app, (bundle, template) => {
         renderer = createRenderer(bundle, template)
     })
 }
