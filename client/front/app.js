@@ -2,10 +2,9 @@ import Vue from 'vue'
 import VueRouter from "vue-router";
 import Axios from "axios";
 
-import { Message } from 'element-ui';
-import { MessageBox } from 'element-ui';
+import { Message,MessageBox } from 'element-ui';
 
-import './css/main.styl'
+import 'assets/css/main.styl'
 
 import App from './App.vue'
 import store from './store'
@@ -18,7 +17,7 @@ Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$message = (options) => { //重新定义默认参数
     options = Object.assign(options, { duration: 500 });
     return Message(options);
-}
+};
 Vue.prototype.$message.error = (err) => { //重新定义默认参数
     var options = {
         message: err,
@@ -26,24 +25,24 @@ Vue.prototype.$message.error = (err) => { //重新定义默认参数
         type: 'error'
     };
     return Message(options);
-}
+};
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const Login = resolve => require(['./components/Login.vue'], resolve)
-const Admin = resolve => require(['./components/Admin.vue'], resolve)
+const Login = resolve => require(['./components/Login.vue'], resolve);
+const Admin = resolve => require(['./components/Admin.vue'], resolve);
 const routes = [
     { path: '/admin/login', component: Login, meta: { authPage: true } },
     { path: '/admin', component: Admin }, {
         path: '*',
         redirect: '/admin' // 输入其他不存在的地址自动跳回首页
     }
-]
+];
 
 const router = new VueRouter({
     mode: 'history',
     routes
-})
+});
 
 router.beforeEach((to, from, next) => {
     // console.log(store.state);
@@ -64,7 +63,7 @@ router.beforeEach((to, from, next) => {
             next('/admin/login')
         }
     }
-})
+});
 
 // axios拦截返回，拦截token过期
 Axios.interceptors.response.use(function(response) {
@@ -81,4 +80,4 @@ new Vue({
     render: h => h(App),
     router,
     store
-})
+});

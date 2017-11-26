@@ -28,8 +28,8 @@
 </script>
 
 <style lang="stylus">
-    @import 'css/main.styl'
-    @import 'css/markdown.styl'
+    @import 'assets/css/main.styl'
+    @import 'assets/css/markdown.styl'
     $footer-height = 60px
                        #app
                        width 100%

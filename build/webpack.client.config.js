@@ -128,8 +128,8 @@ if (process.env.NODE_ENV === 'production') {
         }),
         // 分别提取vendor、manifest
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'modules/vendor_admin',
-            chunks: ['modules/admin'],
+            name: 'vendor_admin',
+            chunks: ['admin'],
             minChunks: function(module, count) {
                 return (
                     module.resource &&

@@ -1,12 +1,6 @@
 const { resolve, join } = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nodeModulesPath = resolve(__dirname, '../node_modules');
 const CLIENT_FOLDER = resolve(__dirname, '../');
-const SERVER_FOLDER = resolve(__dirname, '../../api');
-const productionEnv = process.env.NODE_ENV === 'production';
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let config = {
     devtool: '#cheap-module-eval-source-map',
