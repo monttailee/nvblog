@@ -1,0 +1,7 @@
+export const GET_ALL_POSTS = 'GET_ALL_POSTS'
+export const GET_ALL_TAGS = 'GET_ALL_TAGS'
+export const SET_SELECT_TAGS = 'SET_SELECT_TAGS'
+export const TOGGLE_SELECT_TAGS = 'TOGGLE_SELECT_TAGS'
+export const TOGGLE_SIDEBOX = 'TOGGLE_SIDEBOX'
+export const CLOSE_SIDEBOX = 'CLOSE_SIDEBOX'
+export const GET_POST = 'GET_POST'

@@ -9,7 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');//抽取的css�
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const merge = require('webpack-merge');
 const base = require('./webpack.base.config.js');
-//const base = require('../client/');
+//const base = require('../src/');
 
 let config = merge(base, {
     plugins: [
@@ -21,7 +21,7 @@ let config = merge(base, {
 
         new HtmlWebpackPlugin({
             filename: 'admin.html',
-            template: CLIENT_FOLDER + 'client/admin/index.html',
+            template: CLIENT_FOLDER + 'src/admin/index.html',
             inject: 'body',//js脚本插入到body元素的底部
             chunks: productionEnv ? ['manifest_admin', 'vendor_admin', 'admin'] : ['admin'],//允许插入到模板中的一些chunk
             minify: {//压缩的方式
@@ -33,7 +33,7 @@ let config = merge(base, {
 
         new HtmlWebpackPlugin({
             filename: 'front.html',
-            template: CLIENT_FOLDER + 'client/front/index.html',
+            template: CLIENT_FOLDER + 'src/front/index.html',
             //inject: 'body',
             //inject: false,
             chunks: productionEnv ? ['manifest_front', 'vendor_front', 'front'] : ['front'],
@@ -47,13 +47,13 @@ let config = merge(base, {
 
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-            'process.env.VUE_ENV': '"client"'
+            'process.env.VUE_ENV': '"src"'
         })
     ]
 });
 
-config.entry['admin'].unshift('webpack-hot-middleware/client?reload=true');
-config.entry['front'].unshift('webpack-hot-middleware/client?reload=true');
+config.entry['admin'].unshift('webpack-hot-middleware/src?reload=true');
+config.entry['front'].unshift('webpack-hot-middleware/src?reload=true');
 
 if (process.env.NODE_ENV === 'production') {
     // 删除devtool

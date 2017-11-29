@@ -6,10 +6,10 @@ let config = {
     devtool: '#cheap-module-eval-source-map',
     entry: {
         'admin': [
-            CLIENT_FOLDER + 'client/admin/app'
+            CLIENT_FOLDER + 'src/admin/app'
         ],
         'front': [
-            CLIENT_FOLDER + 'client/front/entry-client'
+            CLIENT_FOLDER + 'src/front/entry-src'
         ]
     },
     output: {
@@ -71,7 +71,7 @@ let config = {
             'simplemde$': 'simplemde/dist/simplemde.min.js',
             'highlight.js$': 'highlight.js/lib/highlight.js',
             'fastclick': 'fastclick/lib/fastclick.js',
-            'lib': resolve(__dirname, '../client/lib'),
+            'lib': resolve(__dirname, '../src/lib'),
             'api': resolve(__dirname, '../src/api'),
             'publicComponents': resolve(__dirname, '../src/components'),
             'serverConfig': resolve(__dirname, '../../api/configs/'),

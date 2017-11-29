@@ -36,7 +36,7 @@ app.use(middleware());
 onerror(app);
 
 //静态资源
-app.use(staticServer(resolve('../client/static')));
+app.use(staticServer(resolve('../src/static')));
 
 //路由
 app.use(routerApi());
@@ -81,9 +81,9 @@ app.use(convert(historyApiFallback({
 if (isProd) {
     //生产环境下直接读取构造渲染器
     const bundle = require('./vue-ssr-api-bundle.json');
-    const template = fs.readFileSync(resolve('../client/dist/front.html'), 'utf-8');
+    const template = fs.readFileSync(resolve('../src/dist/front.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
-    app.use(staticServer('./client/dist'));
+    app.use(staticServer('./src/dist'));
 } else {
     //开发环境下使用hot/dev middleware拿到bundle与template
     require('./setup-dev-server')(app, (bundle, template) => {
