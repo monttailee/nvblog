@@ -3,8 +3,8 @@
         <div class="sideBox__mask" :class="{ 'sideBox__mask--show': sideBoxOpen}" @click="closeSideBox"></div>
         <div class="sideBox__main" :class="{ 'sideBox__main--open': sideBoxOpen}">
             <img src="http://7xp9v5.com1.z0.glb.clouddn.com/touxiang.png" alt="" class="sideBox__img" @click="backToIndex">
-            <p class="sideBox__name">小深刻的秋鼠</p>
-            <p class="sideBox__motto">Love Life, Love sharing</p>
+            <p class="sideBox__name">montai</p>
+            <p class="sideBox__motto">撸起袖子加油干!</p>
             <ul class="sideBox__iconList">
                 <li v-for="icon in iconList" class="sideBox__iconItem">
                     <a :href="icon.href"><i class="iconfont" :class="'icon-'+icon.name"></i></a>
@@ -28,102 +28,107 @@
 </template>
 
 <script>
-import tagApi from 'api/tag.js'
-import throttle from 'lib/throttle.js'
-import {
-    mapGetters,
-    mapMutations,
-    mapActions
-} from 'vuex'
-export default {
-    name: 'sideBox',
-    data: function() {
-        return {
-            tagList: [],
-            scrollTop: 0,
-            iconList: [{
-                name: 'github',
-                href: 'https://github.com/BUPT-HJM'
-            }]
-        }
-    },
-    props: {
-        isInList: {
-            type: Boolean,
-            required: true
+    import tagApi from 'api/tag.js'
+    import throttle from 'lib/throttle.js'
+
+    import {
+            mapGetters,
+            mapMutations,
+            mapActions
+    } from 'vuex'
+
+    export default {
+        name: 'sideBox',
+        data() {
+            return {
+                tagList: [],
+                //selectTagArr: [],
+                //sideBoxOpen: false,
+                scrollTop: 0,
+                iconList: [{
+                    name: 'github',
+                    href: 'https://github.com/BUPT-HJM'
+                }]
+            }
         },
-        category: {
-            type: Array,
-            required: false
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'tags',
-            'selectTags',
-            'sideBoxOpen'
-        ])
-    },
-    created() {
-        if(typeof window == 'undefined') {
-            return;
-        }
-        console.log('side created');
-        if(!this.isInList) {
-            window.onscroll = throttle(this.getScrollTop, 30)
-        }
-        if(this.isInList && this.tags.length == 0) {
-            this.getAllTags()
-        }
-    },
-    beforeDestroy() {
-        console.log('side beforeDestroy');
-        window.onscroll = null
-    },
-    methods: {
-        ...mapMutations({
-            setSelectTags: 'SET_SELECT_TAGS',
-            toggleSideBox: 'TOGGLE_SIDEBOX',
-            closeSideBox: 'CLOSE_SIDEBOX',
-            toggleSelectTags: 'TOGGLE_SELECT_TAGS'
-        }),
-        ...mapActions([
-            'getAllTags'
-        ]),
-        backToIndex: function(){
-            this.$router.push('/')
+        props: {
+            isInList: {
+                type: Boolean,
+                required: true
+            },
+            category: {
+                type: Array,
+                required: false
+            }
         },
-        getScrollTop: function() {
-            let scrollTop = 0,
-                    bodyScrollTop = 0,
-                    documentScrollTop = 0;
-            if (document.body) {
-                // 如果屏幕宽度小于850就直接return,不再去获取滚动值
-                if(document.body.clientWidth < 850) {
-                    return;
+        computed: {
+            ...mapGetters([
+                'tags',
+                'selectTags',
+                'sideBoxOpen'
+            ]),
+        },
+        created() {
+            if(typeof window == 'undefined') {
+                return;
+            }
+            console.log('side created')
+            if(!this.isInList) {
+                window.onscroll = throttle(this.getScrollTop, 30)
+            }
+            if(this.isInList && this.tags.length == 0) {
+                this.getAllTags()
+            }
+        },
+        beforeDestroy() {
+            console.log('side beforeDestroy')
+            window.onscroll = null
+        },
+        methods: {
+            ...mapMutations({
+                setSelectTags: 'SET_SELECT_TAGS',
+                toggleSideBox: 'TOGGLE_SIDEBOX',
+                closeSideBox: 'CLOSE_SIDEBOX',
+                toggleSelectTags: 'TOGGLE_SELECT_TAGS'
+            }),
+            ...mapActions([
+                'getAllTags'
+            ]),
+            backToIndex() {
+                this.$router.push('/')
+            },
+            getScrollTop() {
+                let scrollTop = 0,
+                        bodyScrollTop = 0,
+                        documentScrollTop = 0;
+                if (document.body) {
+                    // 如果屏幕宽度小于850就直接return,不再去获取滚动值
+                    if(document.body.clientWidth < 850) {
+                        return;
+                    }
+                    bodyScrollTop = document.body.scrollTop;
                 }
-                bodyScrollTop = document.body.scrollTop;
+                if (document.documentElement) {
+                    documentScrollTop = document.documentElement.scrollTop;
+                }
+                console.log(this.scrollTop)
+                this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+                // console.log(this.scrollTop)
+            },
+            clearSelectTagArr() {
+                this.setSelectTags([])
             }
-            if (document.documentElement) {
-                documentScrollTop = document.documentElement.scrollTop;
-            }
-            console.log(this.scrollTop);
-            this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-            // console.log(this.scrollTop)
         },
-        clearSelectTagArr: function() {
-            this.setSelectTags([])
+        watch: {
         }
-    },
-    watch: {
     }
-}
 </script>
 
-<style lang="stylus" type="text/stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl';
-    .sideBox{
-        width: 250px
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="stylus" rel="stylesheet/stylus" scoped>
+    @import '../../assets/css/_settings.styl'
+    .sideBox
+        width 250px
         float left
         text-align center
         &__img
@@ -153,6 +158,8 @@ export default {
                     font-size 28px
                     &:hover
                         color black
+        // &:hover
+        //   color $blue
         &__tagList
             list-style none
             padding 10px
@@ -183,6 +190,7 @@ export default {
                 list-style none
             li
                 text-align left
+                //list-style-type: square;
                 margin-bottom 5px
                 padding-left 20px
                 word-wrap break-word
@@ -217,10 +225,10 @@ export default {
             overflow-y auto
             width 250px
     @media screen and (max-width: 850px)
-        .sideBox
-            position absolute
-            top 0
-            left 0
+    .sideBox
+        position absolute
+        top 0
+        left 0
         &__main
             position fixed
             left 0px
@@ -257,10 +265,9 @@ export default {
         &__tagItem--active:hover
             color $blue
         .categoryBox--fixed
-        position static
-        width auto
-    }
+            position static
+            width auto
 </style>
 <style>
-    @import '../../assets/css/iconfont.css';
+    @import '../../assets/css/iconfont.css'
 </style>
