@@ -34,7 +34,7 @@
 <script>
     import Pagination from 'publicComponents/Pagination.vue'
     import Loading from 'publicComponents/Loading.vue'
-    import Side from './common/Side.vue'
+    import Side from '../common/Side.vue'
     import articleApi from 'api/article.js'
     import marked from 'lib/marked.js'
 
@@ -121,7 +121,7 @@
     }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../assets/css/_settings.styl'
+    @import '../../../assets/css/_settings.styl'
     .list
         padding 10px
         max-width 1000px

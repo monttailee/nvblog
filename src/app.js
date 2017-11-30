@@ -29,8 +29,8 @@ Vue.prototype.$message.error = (err) => { //重新定义默认参数
 
 Vue.use(VueRouter);
 
-const Login = resolve => require(['./components/Login.vue'], resolve);
-const Admin = resolve => require(['./components/Admin.vue'], resolve);
+const Login = resolve => require(['../components/Login.vue'], resolve);
+const Admin = resolve => require(['../components/Admin.vue'], resolve);
 const routes = [
     { path: '/admin/login', component: Login, meta: { authPage: true } },
     { path: '/admin', component: Admin }, {

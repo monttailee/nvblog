@@ -35,7 +35,7 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import '../../../assets/css/_settings.styl'
     .top-header
         position fixed
         top 0

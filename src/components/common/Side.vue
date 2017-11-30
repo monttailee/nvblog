@@ -126,7 +126,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import '../../../assets/css/_settings.styl'
     .sideBox
         width 250px
         float left
@@ -269,5 +269,5 @@
             width auto
 </style>
 <style>
-    @import '../../assets/css/iconfont.css'
+    @import '../../../assets/css/iconfont.css'
 </style>
