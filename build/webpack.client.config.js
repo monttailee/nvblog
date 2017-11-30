@@ -21,7 +21,7 @@ let config = merge(base, {
 
         new HtmlWebpackPlugin({
             filename: 'admin.html',
-            template: CLIENT_FOLDER + 'src/admin/index.html',
+            template: CLIENT_FOLDER + 'src/admin/front.html',
             inject: 'body',//js脚本插入到body元素的底部
             chunks: productionEnv ? ['manifest_admin', 'vendor_admin', 'admin'] : ['admin'],//允许插入到模板中的一些chunk
             minify: {//压缩的方式
@@ -33,7 +33,7 @@ let config = merge(base, {
 
         new HtmlWebpackPlugin({
             filename: 'front.html',
-            template: CLIENT_FOLDER + 'src/front/index.html',
+            template: CLIENT_FOLDER + 'src/front/front.html',
             //inject: 'body',
             //inject: false,
             chunks: productionEnv ? ['manifest_front', 'vendor_front', 'front'] : ['front'],

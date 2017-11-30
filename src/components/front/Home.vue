@@ -27,40 +27,40 @@
     }
 </script>
 
-<style lang="stylus">
-    @import 'assets/css/main.styl'
-    @import 'assets/css/markdown.styl'
+<style lang="stylus" rel="stylesheet/stylus">
+    @import '../../assets/css/main.styl'
+    @import '../../assets/css/markdown.styl'
     $footer-height = 60px
-                       #app
-                       width 100%
-    height 100%
+    #app
+        width 100%
+        height 100%
 
     .fade-enter-active, .fade-leave-active
-    transition all .2s ease
-                     .fade-enter, .fade-leave-active
-    opacity 0
+        transition all .2s ease
+    .fade-enter, .fade-leave-active
+        opacity 0
 
     .wrap
-    min-height 100%
-    margin-bottom -($footer-height)
+        min-height 100%
+        margin-bottom -($footer-height)
     .wrap:after
-    content ""
-    display block
-    height $footer-height
+        content ""
+        display block
+        height $footer-height
     .footer
-    height $footer-height
-    text-align center
-    color $grey
-    text-align center
-    line-height 20px
-                  a
-                  text-decoration none
-                  color $blue-link
-      &:hover
-                  text-decoration underline
+        height $footer-height
+        text-align center
+        color $grey
+        text-align center
+        line-height 20px
+        a
+            text-decoration none
+            color $blue-link
+            &:hover
+                text-decoration underline
     @media screen and (max-width: 850px)
         .fade-enter
-        transform translate(30px, 0px)
+            transform translate(30px, 0px)
         .fade-leave-active
-        transform translate(-30px, 0px)
+            transform translate(-30px, 0px)
 </style>

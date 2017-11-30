@@ -1,4 +1,4 @@
-import { createApp } from './app'
+import { createApp } from './ap'
 const { app, router, store } = createApp()
 
 // store替换使client rendering和server rendering匹配
