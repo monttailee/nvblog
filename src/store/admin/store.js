@@ -1,8 +1,8 @@
-//多个modules的state合并，类似react的多个reducer合并
+//多个modules的store合并，类似react的多个reducer合并
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth from './modules/auth'
-import editor from './modules/editor'
+import auth from './authIndex'
+import editor from './editorIndex'
 
 Vue.use(Vuex);
 
