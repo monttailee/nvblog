@@ -11,6 +11,11 @@ import App from '../../components/admin/Home.vue'
 import store from '../../store/admin/store'
 
 // 按需引入element-ui相关弹出
+
+
+
+
+
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;

@@ -69,7 +69,7 @@ let config = {
             'vuex$': 'vuex/dist/vuex.esm.js',
             'vue-router$': 'vue-router/dist/vue-router.esm.js',
             'simplemde$': 'simplemde/dist/simplemde.min.js',
-            'highlight.js$': 'highlight.js/lib/highlight.js',
+            'highlight.js$': 'highlight.entry/lib/highlight.js',
             'fastclick': 'fastclick/lib/fastclick.js',
             'lib': resolve(__dirname, '../src/lib'),
             'api': resolve(__dirname, '../src/api'),

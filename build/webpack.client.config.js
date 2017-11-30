@@ -1,6 +1,6 @@
 const { resolve, join } = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');//根据模版/js/css等生成html文件
+const HtmlWebpackPlugin = require('html-webpack-plugin');//根据模版/entry/css等生成html文件
 const nodeModulesPath = resolve(__dirname, '../node_modules');
 const CLIENT_FOLDER = resolve(__dirname, '../');
 const SERVER_FOLDER = resolve(__dirname, '../../api');

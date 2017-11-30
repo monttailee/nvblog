@@ -15,8 +15,8 @@
 
 <script>
     import Loading from 'publicComponents/Loading.vue'
-    import articleApi from 'api/article.js'
-    import marked from 'lib/marked.js'
+    import articleApi from 'api/article.entry'
+    import marked from 'lib/marked.entry'
     import Side from '../common/Side.vue'
 
     import {

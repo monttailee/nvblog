@@ -28,8 +28,8 @@
 </template>
 
 <script>
-    import tagApi from 'api/tag.js'
-    import throttle from 'lib/throttle.js'
+    import tagApi from 'api/tag.entry'
+    import throttle from 'lib/throttle.entry'
 
     import {
             mapGetters,

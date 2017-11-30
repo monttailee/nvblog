@@ -30,8 +30,8 @@
 
 <script>
     import SimpleMDE from 'simplemde'
-    import debounce from 'lib/debounce.js'
-    import marked from 'lib/marked.js'
+    import debounce from 'lib/debounce.entry'
+    import marked from 'lib/marked.entry'
     import css from 'simplemde/dist/simplemde.min.css'
     import {
             mapGetters,

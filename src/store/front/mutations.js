@@ -8,7 +8,7 @@ import {
     GET_POST
 } from './mutationTypes'
 
-import marked from '../../assets/js/lib/marked'
+import marked from '../../assets/entry/lib/marked'
 
 export default {
     [GET_ALL_POSTS](state, { posts, allPage, curPage }){
