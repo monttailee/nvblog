@@ -33,11 +33,8 @@
     import debounce from 'lib/debounce.entry'
     import marked from 'lib/marked.entry'
     import css from 'simplemde/dist/simplemde.min.css'
-    import {
-            mapGetters,
-            mapActions,
-            mapMutations
-    } from 'vuex'
+    import { mapGetters, mapActions, mapMutations } from 'vuex'
+
     let simplemde;
     export default {
         name: 'editor',
@@ -295,10 +292,10 @@
 </script>
 
 <style lang="stylus">
-    @import '../../../assets/css/preview.styl'
+    @import '../../assets/css/preview.styl'
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../../assets/css/_settings.styl'
+    @import '../../assets/css/_settings.styl'
     .editor-box
         position relative
         padding 15px

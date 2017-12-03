@@ -1,5 +1,6 @@
 /**
  * ajax配置[仅用于admin发布端]
+ * http://blog.csdn.net/sjn0503/article/details/74729300  axios拦截设置和错误处理
  */
 import axios from 'axios'
 import store from '../../store/admin/store'

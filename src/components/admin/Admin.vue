@@ -13,16 +13,20 @@
 </template>
 
 <script>
-    import Editor from './Editor.vue'
-    import List from './List.vue'
-    import {
-            mapMutations
-    } from 'vuex'
+    /**
+     * commit与dispatch的区别：
+     * commit => mutations,用来触发同步操作的方法,由mapMutations映射
+     * dispatch => actions,用来触发异步操作的方法（比如向后台发送请求获取数据,其他使用commit即可）,由mapActions映射
+     * */
+    import editor from './Editor.vue'
+    import list from './List.vue'
+    import { mapMutations } from 'vuex'
+
     export default {
         name: 'admin',
         components: {
-            Editor,
-            List
+            editor,
+            list
         },
         data() {
             return {}
@@ -31,7 +35,7 @@
         },
         methods: {
             ...mapMutations({
-                deleteToken: 'DELETE_TOKEN'
+                'DELETE_TOKEN'
             }),
             logout() {
                 this.$confirm('此操作将退出系统, 是否继续?', '提示', {
@@ -39,7 +43,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteToken()
+                    this.DELETE_TOKEN();
                     this.$router.push('/admin/login')
                 }).catch(() => {
                 })
@@ -50,7 +54,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../../assets/css/_settings.styl'
+    @import '../../assets/css/_settings.styl'
     .admin
         &__list
             position fixed

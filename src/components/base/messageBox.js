@@ -1,26 +1,15 @@
-import { Message, MessageBox } from 'element-ui';
+/**
+ * 封装 MessageBox 为一个插件
+ * 应用vue.use(*)变成全局组件
+ * https://www.cnblogs.com/dupd/p/6716386.html  vue.use源码分析
+ * */
+import { MessageBox } from 'element-ui';
 
 export default {
     install: function(Vue){
-        Object.defineProperty(Vue.prototype, '$message', {value: Message});
-        Object.defineProperty(Vue.prototype, '$msgbox', {value: MessageBox});
+        Object.defineProperty(Vue.prototype, '$msgBox', {value: MessageBox});
+        Object.defineProperty(Vue.prototype, '$alert', {value: MessageBox.alert});
+        Object.defineProperty(Vue.prototype, '$confirm', {value: MessageBox.confirm});
+        Object.defineProperty(Vue.prototype, '$prompt', {value: MessageBox.prompt});
     }
 }
-
-/*
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
-Vue.prototype.$message = (options) => { //重新定义默认参数
-    options = Object.assign(options, { duration: 500 });
-    return Message(options);
-}
-Vue.prototype.$message.error = (err) => { //重新定义默认参数
-    var options = {
-        message: err,
-        duration: 500,
-        type: 'error'
-    };
-    return Message(options);
-}*/

@@ -8,6 +8,9 @@ import store from '../../store/admin/store'
 
 // 按需引入element-ui相关弹出
 import { Message } from 'element-ui'
+import msgBoxPlugin from '../../components/base/messageBox'
+
+Vue.use(msgBoxPlugin);
 
 Vue.prototype.$message = (options) => { //重新定义默认参数
     options = Object.assign(options, { duration: 500 });

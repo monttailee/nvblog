@@ -50,3 +50,4 @@ export default router;
 
 //http://blog.csdn.net/CatieCarter/article/details/76178590?locationNum=6&fps=1    vue路由
 //https://www.cnblogs.com/heioray/p/7193841.html  vue-router模式/钩子函数
+//https://github.com/superman66/vue-axios-github/blob/master/src/router.js
