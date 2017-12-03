@@ -98,10 +98,10 @@
 </script>
 
 <style lang="stylus">
-    @import '../../../assets/css/markdown.styl'
+    @import '../../assets/css/markdown.styl'
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../../assets/css/_settings.styl'
+    @import '../../assets/css/_settings.styl'
     .article
         max-width 1000px
         margin 85px auto 0 auto

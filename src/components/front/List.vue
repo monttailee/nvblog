@@ -121,7 +121,7 @@
     }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../../assets/css/_settings.styl'
+    @import '../../assets/css/_settings.styl'
     .list
         padding 10px
         max-width 1000px

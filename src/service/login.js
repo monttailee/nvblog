@@ -1,7 +1,7 @@
-import Axios from 'axios'
+import axios from '../assets/utils/http'
 
 export default {
     createToken(username, password) {
-        return Axios.post('/api/token', { username, password })
+        return axios.post('/api/token', { username, password })
     }
 }
