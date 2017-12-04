@@ -1,10 +1,14 @@
+/**
+ * admin 路由封装
+ * 常用方法：http://blog.csdn.net/sinat_17775997/article/details/54915211
+ * */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/admin/store'
 import Login from '../components/admin/Login.vue'
 import Admin from '../components/admin/Admin.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter);//全局注册
 
 const router = new VueRouter({
     mode: 'history',// 两种类型history 还有 hash

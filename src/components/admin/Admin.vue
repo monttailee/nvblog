@@ -44,7 +44,7 @@
                     type: 'warning'
                 }).then(() => {
                     this.DELETE_TOKEN();
-                    this.$router.push('/admin/login')
+                    this.$router.replace({path: '/admin/login'})
                 }).catch(() => {
                 })
             }
