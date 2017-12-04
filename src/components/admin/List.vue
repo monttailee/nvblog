@@ -29,15 +29,14 @@
 </template>
 
 <script>
-    import Pagination from 'publicComponents/Pagination.vue'
-    import {
-            mapGetters,
-            mapActions,
-            mapMutations
-    } from 'vuex'
+    import Pagination from '../common/Pagination.vue'
+    import { mapGetters, mapActions, mapMutations } from 'vuex'
     export default {
         name: 'list',
-        computed: {
+        data() {
+            return {}
+        },
+        computed: {//computed与watch功能类似
             ...mapGetters([
                 'articleList',
                 'tagList',
@@ -50,10 +49,7 @@
         components: {
             Pagination
         },
-        data() {
-            return {}
-        },
-        filters: {
+        filters: {//数据处理器 默认第一位参数为val,自定义的参数是从第二位开始传的
             cutTitle(value) {
                 if (value.length > 24) {
                     return value.substring(0, 24) + "..."
@@ -172,7 +168,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../../assets/css/_settings.styl'
+    @import '../../assets/css/_settings.styl'
     .list
         padding 15px
         &__top-title
