@@ -1,7 +1,5 @@
-import { getAllPublishArticles, getArticle } from '../../service/article'
-import { getAllTags } from '../../service/tag'
+import { getAllPublishArticles, getArticle, getAllTags } from '../../service/frontSer'
 import { GET_ALL_POSTS, GET_ALL_TAGS, GET_POST } from './mutationTypes'
-
 
 export default {
     async getAllPosts({ commit, state }, { tag = '', page = 1, limit = 5 } = {}){
