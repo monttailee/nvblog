@@ -1,6 +1,6 @@
-import mutations from './editorMutations'
-import actions from './editorAction'
-import getters from './editorGetters'
+import mutations from './mutations'
+import actions from './action'
+import getters from './getters'
 
 const state = {
     articleList: [],

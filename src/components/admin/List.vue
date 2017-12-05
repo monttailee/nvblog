@@ -4,7 +4,8 @@
             <i class="fa fa-tags" aria-hidden="true"></i>&nbsp;标签
         </div>
         <ul class="list__tag">
-            <li v-for="tag in tagList" @click="toggleSelectFn(tag.id)" class="list__tag__item" :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
+            <li v-for="tag in tagList" @click="toggleSelectFn(tag.id)" class="list__tag__item"
+                :class="{ 'list__tag__item--active': selectTagArr.includes(tag.id)}">
                 <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;&nbsp;
                 <span>{{tag.name}}</span>
                 <i class="fa fa-trash-o" aria-hidden="true" @click.stop="deleteTagFn(tag.id)"></i>
@@ -12,7 +13,8 @@
         </ul>
         <ul class="list__article">
             <li @click="createArticle" class="list__article__button"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新建文章</li>
-            <li v-for="(article, index) in articleList" @click="switchArticle(index)" class="list__article__item" :class="{'list__article__item--active': currentArticle.index == index}">
+            <li v-for="(article, index) in articleList" @click="switchArticle(index)"
+                class="list__article__item" :class="{'list__article__item--active': currentArticle.index == index}">
                 <h1 class="list__article__item__title">{{ article.title | cutTitle}}</h1>
                 <div class="list__article__item__info">
                     <i class="fa fa-tag" aria-hidden="true"></i>
@@ -51,11 +53,7 @@
         },
         filters: {//数据处理器 默认第一位参数为val,自定义的参数是从第二位开始传的
             cutTitle(value) {
-                if (value.length > 24) {
-                    return value.substring(0, 24) + "..."
-                } else {
-                    return value
-                }
+                return value.length > 24 ? `${value.substring(0, 24)}...` : value
             }
         },
         methods: {
@@ -148,7 +146,7 @@
                 });
             }
         },
-        mounted() {
+        mounted() {//dom构建完成,可以进行ajax操作
             this.getAllArticles().then(res => {
                 console.log("allPage:", this.allPage)
                 console.log("curPage:", this.curPage)

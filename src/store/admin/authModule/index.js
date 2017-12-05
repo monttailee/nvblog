@@ -1,5 +1,5 @@
-import mutations from './authMutations'
-import actions from './authAction'
+import mutations from './mutations'
+import actions from './action'
 
 const state = {
     token: sessionStorage.getItem('vue-blog-token')

@@ -1,4 +1,4 @@
-import { createToken } from '../../service/login'
+import { createToken } from '../../../service/login'
 import { CREATE_TOKEN, DELETE_TOKEN } from './mutationTypes'
 
 export default {

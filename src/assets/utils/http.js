@@ -5,7 +5,7 @@
 import axios from 'axios'
 import store from '../../store/admin/store'
 import router from '../../router/adminRouter'
-import { DELETE_TOKEN } from '../../store/admin/mutationTypes'
+import { DELETE_TOKEN } from '../../store/admin/editorModule/mutationTypes'
 
 /**
  * axios配置
