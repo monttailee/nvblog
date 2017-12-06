@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+import { mongoose } from '../dbhelper/mongodb'
+
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: String,
@@ -7,4 +8,5 @@ const userSchema = new Schema({
     avatar: String,
     createTime: String
 }, { versionKey: false });
+
 module.exports = mongoose.model('user', userSchema);

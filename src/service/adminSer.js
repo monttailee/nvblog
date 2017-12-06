@@ -1,3 +1,6 @@
+/**
+ * client--发布管理 service
+ * */
 import axios from '../assets/utils/http'
 
 export default {
@@ -14,7 +17,7 @@ export default {
         return axios.post('/api/articles', { title, content, publish, abstract, tags })
     },
     getAllArticles(tag = '', page = 1, limit = 0) {
-        return axios.get(`/api/articles?tag=${tag}&page=${page}&limit=${limit}`)
+        return axios.get(`/articles?tag=${tag}&page=${page}&limit=${limit}`)
     },
     getAllPublishArticles(tag = '', page = 1, limit = 0) {
         return axios.get(`/api/publishArticles?tag=${tag}&page=${page}&limit=${limit}`)

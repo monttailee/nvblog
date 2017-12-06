@@ -2,7 +2,7 @@ import Koa from 'koa';
 import convert from 'koa-convert';//兼容
 import onerror from 'koa-onerror';//错误信息
 import staticServer from 'koa-static';//托管Koa应用内的静态资源
-import mongoose from 'mongoose';
+import mongodb from 'dbhelper/mongodb';
 
 import url from 'url';
 import path from 'path';
@@ -12,7 +12,6 @@ import { createBundleRenderer } from 'vue-server-renderer';
 import historyApiFallback from './middleware/historyApiFallback';
 import middleware from './middleware/index.js';
 import routerApi from './router.js';
-//const glob = require('glob');
 
 //获取配置信息+运行环境
 const SERVER_ENV = process.env.NODE_ENV;
@@ -21,15 +20,13 @@ const isProd = SERVER_ENV === 'production';
 
 const resolve = file => path.resolve(__dirname, file);
 
-// connect mongodb
-mongoose.Promise = Promise;
-mongoose.connect(ENV_CONFIG.mongodb.url, ENV_CONFIG.mongodbSecret);
-mongoose.connection.on('error', console.error);
-
 //node框架/路由初始化
 const router = require('koa-router')();
 const routerInfo = require('koa-router')();
 const app = new Koa();
+
+//connect mongodb
+mongodb.connect();
 
 //中间件
 app.use(middleware());
@@ -120,7 +117,7 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-//create server
+//启动服务
 app.listen(ENV_CONFIG.app.port, () => {
     console.log('Koa2 server is running at http://localhost:' + ENV_CONFIG.app.port);
 });

@@ -44,8 +44,8 @@ export async function createArticle(ctx) {
 
 export async function getAllArticles(ctx) {
     const tag = ctx.query.tag;
-    const page = +ctx.query.page;
-    const limit = +ctx.query.limit || 4;
+    const page = ctx.query.page;
+    const limit = ctx.query.limit || 4;
     let skip = 0;
     let articleArr;
     let allPage;
@@ -67,7 +67,7 @@ export async function getAllArticles(ctx) {
             this.throw(500, '服务器内部错误')
         })
     } else {
-        let tagArr = tag.split(',')
+        let tagArr = tag.split(',');
         // console.log(tagArr)
         articleArr = await Article.find({
             tags: { "$in": tagArr },
@@ -84,7 +84,7 @@ export async function getAllArticles(ctx) {
             ctx.throw(500, '服务器内部错误')
         })
     }
-    allPage = Math.ceil(allNum / limit)
+    allPage = Math.ceil(allNum / limit);
     ctx.body = {
         success: true,
         articleArr,
@@ -94,8 +94,8 @@ export async function getAllArticles(ctx) {
 
 export async function getAllPublishArticles(ctx) {
     const tag = ctx.query.tag;
-    const page = +ctx.query.page;
-    const limit = +ctx.query.limit || 4;
+    const page = ctx.query.page;
+    const limit = ctx.query.limit || 4;
     let skip = 0;
     let articleArr;
     let allPage;
