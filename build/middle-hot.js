@@ -12,6 +12,6 @@ module.exports = (compiler, opts) => {
                 ctx.state = state
                 ctx.set(headers)
             }
-        }, next);
+        }, next)
     }
 }

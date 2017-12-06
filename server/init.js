@@ -1,30 +1,27 @@
-import Koa from 'koa';
-import convert from 'koa-convert';//兼容
-import onerror from 'koa-onerror';//错误信息
-import staticServer from 'koa-static';//托管Koa应用内的静态资源
-import mongodb from 'dbhelper/mongodb';
-
-import url from 'url';
-import path from 'path';
-import fs from 'fs';
-import { createBundleRenderer } from 'vue-server-renderer';
-
-import historyApiFallback from './middleware/historyApiFallback';
-import middleware from './middleware/index.js';
-import routerApi from './router.js';
-
 //获取配置信息+运行环境
 const SERVER_ENV = process.env.NODE_ENV;
 global.ENV_CONFIG = require('../config/env/' + SERVER_ENV);
 const isProd = SERVER_ENV === 'production';
 
+const path = require('path');
+const fs = require('fs');
 const resolve = file => path.resolve(__dirname, file);
 
-//node框架/路由初始化
-const router = require('koa-router')();
-const routerInfo = require('koa-router')();
-const app = new Koa();
+const createBundleRenderer = require('vue-server-renderer').createBundleRenderer;
 
+const Koa = require('koa');
+const app = new Koa();
+const staticServer = require('koa-static');//托管静态资源
+const convert = require('koa-convert');//兼容
+const onerror = require('koa-onerror');//错误信息
+const router = require('koa-router')();
+
+const historyApiFallback = require('./middleware/historyApiFallback');
+const mongodb = require('./dbhelper/mongodb');
+const middleware = require('./middleware/index');
+const routerApi = require('./router');
+
+//const routerInfo = require('koa-router')();
 //connect mongodb
 mongodb.connect();
 
@@ -77,7 +74,7 @@ app.use(convert(historyApiFallback({
 
 if (isProd) {
     //生产环境下直接读取构造渲染器
-    const bundle = require('./vue-ssr-api-bundle.json');
+    const bundle = require('../dist/vue-ssr-api-bundle.json');
     const template = fs.readFileSync(resolve('../src/dist/front.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
     app.use(staticServer('./src/dist'));
