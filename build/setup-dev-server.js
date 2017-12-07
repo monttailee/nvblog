@@ -1,3 +1,6 @@
+/**
+ * 方便开发过程，实现代码热更新和浏览器自动刷新
+ * */
 const path = require('path')
 const webpack = require('webpack')
 const MFS = require('memory-fs')

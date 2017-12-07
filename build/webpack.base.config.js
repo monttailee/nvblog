@@ -1,10 +1,13 @@
+/**
+ * 基础webpack: 抽取构建公用部分
+ * 注：ssr(服务器端渲染)构建分为两部分：前端 + 服务器端
+ * */
 const path = require('path')
 
 module.exports = {
-    devtool: '#cheap-module-eval-source-map',
     entry: {
         'admin': ['../src/assets/entry/admin'],
-        'front': ['../src/assets/entry/front'],
+        'front': ['../src/assets/entry/entry-client'],
         //vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
     },
     resolve: {
@@ -34,18 +37,6 @@ module.exports = {
     plugins: [],
     module: {
         rules: [
-            {
-                enforce: 'pre',
-                test: /\.js$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/
-            },
-            {
-                enforce: 'pre',
-                test: /\.vue$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/
-            },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -86,7 +77,7 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name: path.posix.join('src/assets/', 'fonts/[name].[hash:7].[ext]')
+                    name: 'fonts/[name].[hash:7].[ext]'
                 }
             }
         ]

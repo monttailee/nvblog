@@ -1,174 +1,122 @@
-const { resolve, join } = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');//根据模版/entry/css等生成html文件
-const nodeModulesPath = resolve(__dirname, '../node_modules');
-const CLIENT_FOLDER = resolve(__dirname, '../');
-const SERVER_FOLDER = resolve(__dirname, '../../api');
-const productionEnv = process.env.NODE_ENV === 'production';
-const ExtractTextPlugin = require('extract-text-webpack-plugin');//抽取的css样式
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const merge = require('webpack-merge');
-const base = require('./webpack.base.config.js');
-//const base = require('../src/');
+/**
+ * 前端构建，区分开发环境与生产环境
+ * */
+const webpack = require('webpack')
+const base = require('./webpack.base.config')
+const HtmlPlugin = require('html-webpack-plugin')//根据模版生成dist目录中的html文件
+const ExtractTextPlugin = require('extract-text-webpack-plugin')//抽取的css样式
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const merge = require('webpack-merge')
+const productionEnv = process.env.NODE_ENV === 'production'
 
-let config = merge(base, {
+const config = merge(base, {
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        // 开启全局的模块热替换(HMR)
-
-        new webpack.NamedModulesPlugin(),
-        // 当模块热替换(HMR)时在浏览器控制台输出对用户更友好的模块名字信息,
-
-        new HtmlWebpackPlugin({
+        //设置变量
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+            'process.env.VUE_ENV': '"client"'
+        }),
+        new HtmlPlugin({
             filename: 'admin.html',
-            template: CLIENT_FOLDER + 'src/admin/front.html',
-            inject: 'body',//js脚本插入到body元素的底部
-            chunks: productionEnv ? ['manifest_admin', 'vendor_admin', 'admin'] : ['admin'],//允许插入到模板中的一些chunk
-            minify: {//压缩的方式
+            template: '../src/template/admin.html',
+            inject: 'body',//脚本插入到body底部
+            chunks: productionEnv ? ['manifest_admin', 'vendor_admin', 'admin'] : ['admin'],//引入生成的js文件
+            minify: {//压缩方式
                 removeComments: true,
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             }
         }),
-
-        new HtmlWebpackPlugin({
+        new HtmlPlugin({
             filename: 'front.html',
-            template: CLIENT_FOLDER + 'src/front/front.html',
-            //inject: 'body',
-            //inject: false,
+            template: '../src/template/front.html',
             chunks: productionEnv ? ['manifest_front', 'vendor_front', 'front'] : ['front'],
             minify: {
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             }
         }),
-        // 配置提取出的样式文件
-        new ExtractTextPlugin('css/[name].[contenthash].css'),
-
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-            'process.env.VUE_ENV': '"src"'
-        })
+        //配置提取出的样式文件
+        new ExtractTextPlugin('css/[name].[contenthash].css')
     ]
 });
 
-config.entry['admin'].unshift('webpack-hot-middleware/src?reload=true');
-config.entry['front'].unshift('webpack-hot-middleware/src?reload=true');
 
-if (process.env.NODE_ENV === 'production') {
-    // 删除devtool
-    delete config.devtool;
-    // 删除webpack-hot-middleware
-    config.entry['admin'].shift();
-    config.entry['front'].shift();
+  if(!productionEnv){
+    //dev
+    config.devtool = '#cheap-module-eval-source-map';
+    config.entry['admin'].unshift('webpack-hot-middleware/admin?reload=true');
+    config.entry['front'].unshift('webpack-hot-middleware/front?reload=true');
+
+    config.plugins.unshift(
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NamedModulesPlugin()
+    )
+
+  } else{
+    //pro
+    config.devtool = '#source-map';
     config.output.filename = '[name].[chunkhash:8].min.js';
     // 提取css
     config.module.rules[0].options.loaders = {
-        styl: ExtractTextPlugin.extract({
-            use: [{
-                loader: 'css-loader',
-                options: {
-                    minimize: true,
-                    sourceMap: true
-                }
-            }, {
-                loader: 'stylus-loader',
-                options: {
-                    sourceMap: true
-                }
-            }],
-            fallback: 'vue-style-loader'
-        }),
-        stylus: ExtractTextPlugin.extract({
-            use: [{
-                loader: 'css-loader',
-                options: {
-                    minimize: true,
-                    sourceMap: true
-                }
-            }, {
-                loader: 'stylus-loader',
-                options: {
-                    sourceMap: true
-                }
-            }],
-            fallback: 'vue-style-loader'
-        }),
-        css: ExtractTextPlugin.extract({
-            use: [{
-                loader: 'css-loader',
-                options: {
-                    minimize: true,
-                    sourceMap: true
-                }
-            }],
-            fallback: 'vue-style-loader'
-        })
+      css: ExtractTextPlugin.extract({
+        loader: 'css-loader',
+        fallbackLoader: 'vue-style-loader'
+      }),
+      styl: ExtractTextPlugin.extract({
+        loader: 'css-loader!stylus-loader',
+        fallbackLoader: 'vue-style-loader'
+      }),
+      stylus: ExtractTextPlugin.extract({
+        loader: 'css-loader!stylus-loader',
+        fallbackLoader: 'vue-style-loader'
+      })
     };
-    // 删除HotModuleReplacementPlugin和NamedModulesPlugin
-    config.plugins.shift();
-    config.plugins.shift();
     config.plugins = config.plugins.concat([
-        new webpack.optimize.UglifyJsPlugin({
-            // 最紧凑的输出
-            beautify: false,
-            // 删除所有的注释
-            comments: false,
-            compress: {
-                // 在UglifyJs删除没有用到的代码时不输出警告
-                warnings: false,
-                // 删除所有的 `console` 语句
-                // 还可以兼容ie浏览器
-                drop_console: true,
-                // 内嵌定义了但是只用到一次的变量
-                collapse_vars: true,
-                // 提取出出现多次但是没有定义成变量去引用的静态值
-                reduce_vars: true,
-            }
-        }),
-        // 分别提取vendor、manifest
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor_admin',
-            chunks: ['admin'],
-            minChunks: function(module, count) {
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                        nodeModulesPath
-                    ) === 0
-                )
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest_admin',
-            chunks: ['vendor_admin']
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor_front',
-            chunks: ['front'],
-            minChunks: function(module, count) {
-                return (
-                    module.resource &&
-                    /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(
-                        nodeModulesPath
-                    ) === 0
-                )
-            }
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest_front',
-            chunks: ['vendor_front']
-        }),
-        // copy static
-        new CopyWebpackPlugin([{
-            from: CLIENT_FOLDER + '/static',
-            to: CLIENT_FOLDER + '/dist/static',
-            ignore: ['.*']
-        }])
-    ]);
-}
+      new webpack.optimize.UglifyJsPlugin({
+        beautify: false,//最紧凑的输出
+        comments: false,//删除注释
+        compress: {
+          warnings: false,//删除没用的不警告
+          drop_console: true,//删除console
+          collapse_vars: true,//内嵌变量
+          reduce_vars: true,//提取变量
+        }
+      }),
+      //分别提取vendor、manifest
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor_admin',
+        chunks: ['admin'],
+        minChunks: function(module, count) {
+          return (
+            module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+          )
+        }
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest_admin',
+        chunks: ['vendor_admin']
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor_front',
+        chunks: ['front'],
+        minChunks: function(module, count) {
+          return (
+            module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0
+          )
+        }
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest_front',
+        chunks: ['vendor_front']
+      }),
+      // copy static
+      new CopyWebpackPlugin([{
+        from: CLIENT_FOLDER + '/static',
+        to: CLIENT_FOLDER + '/dist/static',
+        ignore: ['.*']
+      }])
+    ])
+  }
 
-console.log(config);
-module.exports = config;
+module.exports = config

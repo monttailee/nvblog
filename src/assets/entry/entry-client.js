@@ -1,4 +1,4 @@
-import { createApp } from './ap'
+import { createApp } from './front'
 const { app, router, store } = createApp()
 
 // store替换使client rendering和server rendering匹配
