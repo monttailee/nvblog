@@ -58,7 +58,7 @@ const config = merge(base, {
   } else{
     //pro
     config.module.rules = config.module.rules.concat(require('./styleLoader').styleLoaders({sourceMap: true, extract: true}));
-    config.devtool = '#source-map';
+    //config.devtool = '#source-map';
     config.output.filename = '[name].[chunkhash:8].js';
     config.plugins = config.plugins.concat([
       new webpack.optimize.UglifyJsPlugin({

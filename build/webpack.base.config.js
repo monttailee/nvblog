@@ -21,6 +21,7 @@ module.exports = {
             'admin_com': path.resolve(__dirname, '../src/components/admin'),
             'front_com': path.resolve(__dirname, '../src/components/front'),
             'common_com': path.resolve(__dirname, '../src/components/common'),
+            'base_com': path.resolve(__dirname, '../src/components/base'),
             'router': path.resolve(__dirname, '../src/router'),
             'service': path.resolve(__dirname, '../src/service'),
             'admin_store': path.resolve(__dirname, '../src/store/admin'),

@@ -1,14 +1,14 @@
-import '../../assets/css/main.styl'
+import 'css/main.styl'
 
 import Vue from 'vue'
 
-import router from '../../router/adminRouter'
-import App from '../../components/admin/Home.vue'
-import store from '../../store/admin/store'
+import router from 'router/adminRouter'
+import App from 'admin_com/Home'
+import store from 'admin_store/store'
 
 // 按需引入element-ui相关弹出
 import { Message } from 'element-ui'
-import msgBoxPlugin from '../../components/base/messageBox'
+import msgBoxPlugin from 'base_com/messageBox'
 
 Vue.use(msgBoxPlugin);
 
