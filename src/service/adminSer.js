@@ -1,7 +1,7 @@
 /**
  * client--发布管理 service
  * */
-import axios from '../assets/utils/http'
+import axios from 'utils/http'
 
 export default {
     createToken(username, password) {

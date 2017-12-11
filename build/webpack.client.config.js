@@ -1,10 +1,12 @@
 /**
  * 前端构建，区分开发环境与生产环境
  * */
+const path = require('path')
 const webpack = require('webpack')
 const base = require('./webpack.base.config')
 const HtmlPlugin = require('html-webpack-plugin')//根据模版生成dist目录中的html文件
 const ExtractTextPlugin = require('extract-text-webpack-plugin')//抽取的css样式
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const merge = require('webpack-merge')
 const productionEnv = process.env.NODE_ENV === 'production'
@@ -35,9 +37,7 @@ const config = merge(base, {
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             }
-        }),
-        //配置提取出的样式文件
-        new ExtractTextPlugin('css/[name].[contenthash].css')
+        })
     ]
 });
 
@@ -45,33 +45,21 @@ const config = merge(base, {
   if(!productionEnv){
     //dev
     config.devtool = '#cheap-module-eval-source-map';
-    config.entry['admin'].unshift('webpack-hot-middleware/admin?reload=true');
-    config.entry['front'].unshift('webpack-hot-middleware/front?reload=true');
+    config.entry['admin'].unshift('webpack-hot-middleware/client?reload=true');
+    config.entry['front'].unshift('webpack-hot-middleware/client?reload=true');
 
-    config.plugins.unshift(
+    config.plugins = [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin()
-    )
+      new webpack.NamedModulesPlugin(),
+      new ExtractTextPlugin('[name].css')].concat(config.plugins);
+
+    config.module.rules = config.module.rules.concat(require('./styleLoader').styleLoaders({sourceMap: false}))
 
   } else{
     //pro
+    config.module.rules = config.module.rules.concat(require('./styleLoader').styleLoaders({sourceMap: true, extract: true}));
     config.devtool = '#source-map';
-    config.output.filename = '[name].[chunkhash:8].min.js';
-    // 提取css
-    config.module.rules[0].options.loaders = {
-      css: ExtractTextPlugin.extract({
-        loader: 'css-loader',
-        fallbackLoader: 'vue-style-loader'
-      }),
-      styl: ExtractTextPlugin.extract({
-        loader: 'css-loader!stylus-loader',
-        fallbackLoader: 'vue-style-loader'
-      }),
-      stylus: ExtractTextPlugin.extract({
-        loader: 'css-loader!stylus-loader',
-        fallbackLoader: 'vue-style-loader'
-      })
-    };
+    config.output.filename = '[name].[chunkhash:8].js';
     config.plugins = config.plugins.concat([
       new webpack.optimize.UglifyJsPlugin({
         beautify: false,//最紧凑的输出
@@ -81,6 +69,12 @@ const config = merge(base, {
           drop_console: true,//删除console
           collapse_vars: true,//内嵌变量
           reduce_vars: true,//提取变量
+        }
+      }),
+      new ExtractTextPlugin('[name].[contenthash].css'),
+      new OptimizeCSSPlugin({
+        cssProcessorOptions: {
+          safe: true
         }
       }),
       //分别提取vendor、manifest
@@ -110,12 +104,14 @@ const config = merge(base, {
         name: 'manifest_front',
         chunks: ['vendor_front']
       }),
-      // copy static
-      new CopyWebpackPlugin([{
-        from: CLIENT_FOLDER + '/static',
-        to: CLIENT_FOLDER + '/dist/static',
-        ignore: ['.*']
-      }])
+      //copy assets
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, '../src/static'),
+          to: path.resolve(__dirname, '../dist'),
+          ignore: ['.*']
+        }
+      ])
     ])
   }
 

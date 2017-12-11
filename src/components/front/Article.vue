@@ -14,10 +14,9 @@
 </template>
 
 <script>
-    import Loading from 'publicComponents/Loading.vue'
-    import articleApi from 'api/article.entry'
-    import marked from 'lib/marked.entry'
-    import Side from '../common/Side.vue'
+    import Loading from 'common_com/Loading'
+    import marked from 'lib/marked'
+    import Side from 'common_com/Side'
 
     import {
             mapGetters,

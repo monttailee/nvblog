@@ -32,16 +32,12 @@
 </template>
 
 <script>
-    import Pagination from 'publicComponents/Pagination.vue'
-    import Loading from 'publicComponents/Loading.vue'
-    import Side from '../common/Side.vue'
-    import articleApi from 'api/article.entry'
-    import marked from 'lib/marked.entry'
+    import Pagination from 'common_com/Pagination'
+    import Loading from 'common_com/Loading'
+    import Side from 'common_com/Side'
+    import marked from 'lib/marked'
 
-    import {
-        mapGetters,
-        mapActions
-    } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'list',
@@ -121,7 +117,7 @@
     }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import 'css/_settings.styl'
     .list
         padding 10px
         max-width 1000px

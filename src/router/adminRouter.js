@@ -4,9 +4,9 @@
  * */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store/admin/store'
-import Login from '../components/admin/Login.vue'
-import Admin from '../components/admin/Admin.vue'
+import store from 'admin_store/store'
+import Login from 'admin_com/Login'
+import Admin from 'admin_com/Admin'
 
 Vue.use(VueRouter);//全局注册
 

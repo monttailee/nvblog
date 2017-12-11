@@ -1,4 +1,4 @@
-import { getAllPublishArticles, getArticle, getAllTags } from '../../service/frontSer'
+import { getAllPublishArticles, getArticle, getAllTags } from 'service/frontSer'
 import { GET_ALL_POSTS, GET_ALL_TAGS, GET_POST } from './mutationTypes'
 
 export default {

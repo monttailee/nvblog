@@ -11,7 +11,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-    @import '../../assets/css/main.styl'
+    @import 'css/main.styl'
     #app
         width 100%
     .fade-enter-active, .fade-leave-active

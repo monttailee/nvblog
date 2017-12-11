@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import {Message} from 'element-ui'
+    import { Message } from 'element-ui'
     import md5 from 'md5'
     export default {
         name: 'login',
@@ -49,7 +49,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-    @import '../../../assets/css/_settings.styl'
+    @import 'css/_settings.styl'
     .login
         max-width 640px
         margin 150px auto 0 auto

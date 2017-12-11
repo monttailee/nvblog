@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import Top from './components/common/Top.vue'
+    import Top from 'common_com/Top'
     export default {
         name: 'app',
         components: {
@@ -28,8 +28,8 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-    @import '../../assets/css/main.styl'
-    @import '../../assets/css/markdown.styl'
+    @import 'css/main.styl'
+    @import 'css/markdown.styl'
     $footer-height = 60px
     #app
         width 100%

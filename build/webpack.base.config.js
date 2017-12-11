@@ -3,19 +3,20 @@
  * 注：ssr(服务器端渲染)构建分为两部分：前端 + 服务器端
  * */
 const path = require('path')
+const vueLoader = require('./vue-loader')
 
 module.exports = {
     entry: {
         'admin': ['../src/assets/entry/admin'],
-        'front': ['../src/assets/entry/entry-client'],
-        //vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
+        'front': ['../src/assets/entry/entry-client']
     },
     resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'],//解析模块时应该搜索的目录
         extensions: ['.js', '.vue', '.json'],
-        alias: {
+        alias: {//引用别名
             'entry': path.resolve(__dirname, '../src/assets/entry'),
-            'fonts': path.resolve(__dirname, '../src/assets/fonts'),
+            'lib': path.resolve(__dirname, '../src/assets/entry/lib'),
+            'fonts': path.resolve(__dirname, '../src/assets/static/fonts'),
             'utils': path.resolve(__dirname, '../src/assets/utils'),
             'admin_com': path.resolve(__dirname, '../src/components/admin'),
             'front_com': path.resolve(__dirname, '../src/components/front'),
@@ -24,6 +25,7 @@ module.exports = {
             'service': path.resolve(__dirname, '../src/service'),
             'admin_store': path.resolve(__dirname, '../src/store/admin'),
             'front_store': path.resolve(__dirname, '../src/store/front'),
+            'css': path.resolve(__dirname, '../src/assets/css'),
         }
     },
     output: {
@@ -38,17 +40,18 @@ module.exports = {
     module: {
         rules: [
             {
+              test: /\.(js|vue)$/,
+              loader: 'eslint-loader',
+              enforce: 'pre',
+              include: [path.join(__dirname, '../src')],
+              options: {
+                  formatter: require('eslint-friendly-formatter')
+              }
+            },
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: {
-                    loaders: {
-                        styl: ['vue-style-loader', 'css-loader?minimize', 'stylus-loader'],
-                        stylus: ['vue-style-loader', 'css-loader?minimize', 'stylus-loader'],
-                        css: ['vue-style-loader', 'css-loader?minimize'],
-                    },
-                    preserveWhitespace: false,
-                    postcss: [require('autoprefixer')({ browsers: ['last 7 versions'] })]
-                }
+                options: vueLoader
             },
             {
                 test: /\.js$/,
@@ -56,20 +59,11 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.styl$/,
-                use: ['style-loader', 'css-loader?minimize', 'stylus-loader'],
-                include: [path.resolve(__dirname, '../')]
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader?minimize']
-            },
-            {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
                     limit: 10000,
-                    name: path.posix.join('src/assets/', 'images/[name].[hash:7].[ext]')
+                    name: 'images/[name].[hash:7].[ext]'
                 }
             },
             {

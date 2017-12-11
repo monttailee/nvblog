@@ -5,8 +5,8 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const List = resolve => require(['../components/front/List.vue'], resolve)
-const Article = resolve => require(['../components/front/Article.vue'], resolve)
+const List = resolve => require(['front_com/List'], resolve)
+const Article = resolve => require(['front_com/Article'], resolve)
 
 export function createRouter() {
     let navigatorAction = false

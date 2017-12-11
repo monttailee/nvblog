@@ -1,14 +1,14 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const nodeExternals = require('webpack-node-externals');
-const base = require('./webpack.base.config.js');
-const VueSSRServerPlugin = require('vue-server-renderer/server-plugin');
-const { resolve, join } = require('path');
-const CLIENT_FOLDER = resolve(__dirname, '../');
-let config = merge(base, {
+const path = require('path')
+const webpack = require('webpack')
+const base = require('./webpack.base.config')
+const merge = require('webpack-merge')
+const nodeExternals = require('webpack-node-externals')
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
+
+module.exports = merge(base, {
     target: 'node',
     devtool: '#source-map',
-    entry: CLIENT_FOLDER + '/src/modules/front/entry-api.js',
+    entry: path.resolve(__dirname, '../src/assets/entry/entry-server'),
     output: {
         filename: 'api-bundle.js',
         libraryTarget: 'commonjs2'
@@ -26,5 +26,4 @@ let config = merge(base, {
         }),
         new VueSSRServerPlugin()
     ]
-});
-module.exports = config;
+})

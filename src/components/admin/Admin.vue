@@ -54,7 +54,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import 'css/_settings.styl'
     .admin
         &__list
             position fixed

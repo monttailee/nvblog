@@ -1,11 +1,11 @@
 import { createArticle, getAllArticles, saveArticle, publishArticle, notPublishArticle,
-    deleteArticle, createTag, getAllTags, GET_ALL_TAGS, modifyTag, deleteTag } from '../../../service/adminSer'
+    deleteArticle, createTag, getAllTags, GET_ALL_TAGS, modifyTag, deleteTag } from 'service/adminSer'
 
 import { CREATE_ARTICLE,
     GET_ALL_ARTICLES, GET_CURRENT_ARTICLE, CHANGE_ARTICLE, SAVE_ARTICLE, PUBLISH_ARTICLE,
     NOT_PUBLISH_ARTICLE, CREATE_TAG, MODIFY_TAG, DELETE_TAG, DELETE_CURRENT_TAG} from './mutationTypes'
 
-import { dealResult } from '../../../assets/utils/index'
+import { dealResult } from 'utils/index'
 
 export default {
     async createArticle({commit, state}, {title, content, publish, tags}){

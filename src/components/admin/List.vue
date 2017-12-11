@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import Pagination from '../common/Pagination.vue'
+    import Pagination from 'common_com/Pagination'
     import { mapGetters, mapActions, mapMutations } from 'vuex'
     export default {
         name: 'list',
@@ -166,7 +166,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import 'css/_settings.styl'
     .list
         padding 15px
         &__top-title
