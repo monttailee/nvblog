@@ -7,8 +7,8 @@ const vueLoader = require('./vue-loader')
 
 module.exports = {
     entry: {
-        'admin': ['../src/assets/entry/admin'],
-        'front': ['../src/assets/entry/entry-client']
+        'admin': ['../src/assets/entry/entry-client-admin.js'],
+        'front': ['../src/assets/entry/entry-client-front.js']
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],//解析模块时应该搜索的目录
