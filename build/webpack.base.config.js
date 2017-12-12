@@ -3,12 +3,12 @@
  * 注：ssr(服务器端渲染)构建分为两部分：前端 + 服务器端
  * */
 const path = require('path')
-const vueLoader = require('./vue-loader')
+const isPro = process.env.NODE_ENV === 'production'
 
 module.exports = {
     entry: {
-        'admin': ['../src/assets/entry/entry-client-admin.js'],
-        'front': ['../src/assets/entry/entry-client-front.js']
+        'admin': '../src/assets/entry/entry-client-admin.js',
+        'front': '../src/assets/entry/entry-client-front.js'
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],//解析模块时应该搜索的目录
@@ -40,7 +40,7 @@ module.exports = {
     plugins: [],
     module: {
         rules: [
-            {
+            /*{
               test: /\.(js|vue)$/,
               loader: 'eslint-loader',
               enforce: 'pre',
@@ -48,11 +48,18 @@ module.exports = {
               options: {
                   formatter: require('eslint-friendly-formatter')
               }
-            },
+            },*/
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: vueLoader
+                options: {
+                  loaders: require('./styleLoader').cssLoaders({
+                    sourceMap: isPro,
+                    extract: isPro
+                  }),
+                  preserveWhitespace: false,
+                  postcss: [require('autoprefixer')({ browsers: ['last 7 versions'] })]
+                }
             },
             {
                 test: /\.js$/,
