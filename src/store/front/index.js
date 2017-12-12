@@ -20,9 +20,11 @@ const state = {
     sideBoxOpen: false
 };
 
-export default new Vuex.Store({
+export function createStore() {
+  return new Vuex.Store({
     state,
     getters,
     actions,
     mutations
-});
+  })
+}

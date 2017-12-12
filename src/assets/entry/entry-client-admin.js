@@ -1,3 +1,6 @@
+/**
+ * 发布管理页面入口文件
+ * */
 import 'css/main.styl'
 
 import Vue from 'vue'
