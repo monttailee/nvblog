@@ -6,7 +6,7 @@ import store from 'front_store/index'
 
 //解决移动端300ms延迟问题
 if (typeof window !== "undefined") {
-    const Fastclick = require('fastclick')
+    const Fastclick = require('fastclick');
     Fastclick.attach(document.body)
 }
 

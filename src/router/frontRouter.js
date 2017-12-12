@@ -1,44 +1,40 @@
+/**
+ * front路由封装
+ **/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import List from '../components/List.vue'
-// import Article from '../components/Article.vue'
+import List from 'front_com/List'
+import Article from 'front_com/Article'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const List = resolve => require(['front_com/List'], resolve)
-const Article = resolve => require(['front_com/Article'], resolve)
+const router = new VueRouter({
+    mode: 'history',
+    scrollBehavior: (to, from, savedPosition) => {
+      let _nav = to == from ? 'same' : 'null';
+      sessionStorage.setItem('navigatorAction', _nav)
+    },
+    routes: [
+      { path: '/', component: List },
+      { path: '/article/:id', component: Article, meta: { scrollToTop: true } },
+      { path: '/page/:page', component: List },
+      { path: '*', redirect: '/' }
+    ]
+});
 
-export function createRouter() {
-    let navigatorAction = false
-    const router = new VueRouter({
-        mode: 'history',
-        scrollBehavior: (to, from, savedPosition) => {
-            if (to == from) {
-                navigatorAction = true
-            } else {
-                navigatorAction = false
-            }
-        },
-        routes: [
-            { path: '/', component: List },
-            { path: '/article/:id', component: Article, meta: { scrollToTop: true } },
-            { path: '/page/:page', component: List },
-            { path: '*', redirect: '/' }
-        ]
-    })
+//全局钩子
+router.afterEach((to, from) => {
     if (typeof window !== "undefined") {
-        router.afterEach((to, from) => {
-            setTimeout(() => {
-                if (navigatorAction) {
-                    return;
-                }
-                if (document && to.meta.scrollToTop) {
-                    console.log(to)
-                    console.log("回到顶部")
-                    document.body.scrollTop = 0
-                }
-            }, 200)
-        })
+        setTimeout(() => {
+            if (sessionStorage.getItem('navigatorAction') == 'same') {
+              return;
+            }
+            if (document && to.meta.scrollToTop) {
+              //回到顶部
+              document.body.scrollTop = 0
+            }
+        }, 200)
     }
-    return router
-}
+});
+
+export default router;
