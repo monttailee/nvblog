@@ -3,6 +3,7 @@
  **/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from 'front_store/index'
 import List from 'front_com/List'
 import Article from 'front_com/Article'
 
@@ -23,18 +24,30 @@ const router = new VueRouter({
 });
 
 //全局钩子
-router.afterEach((to, from) => {
-    if (typeof window !== "undefined") {
-        setTimeout(() => {
-            if (sessionStorage.getItem('navigatorAction') == 'same') {
-              return;
-            }
-            if (document && to.meta.scrollToTop) {
-              //回到顶部
-              document.body.scrollTop = 0
-            }
-        }, 200)
+router.beforeEach((to, from, next) => {
+  if (typeof window !== "undefined"){
+    if (to.path === '/' && store.state.sideBoxOpen) {
+      store.commit('CLOSE_SIDEBOX');
+      setTimeout( () => next(), 100)
+
+    } else {
+      next()
     }
+  }
+});
+
+router.afterEach((to, from) => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      if (sessionStorage.getItem('navigatorAction') == 'same') {
+        return;
+      }
+      if (document && to.meta.scrollToTop) {
+        //回到顶部
+        document.body.scrollTop = 0
+      }
+    }, 200)
+  }
 });
 
 export default router;

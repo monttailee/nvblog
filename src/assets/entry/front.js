@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { sync } from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync'//把router的狀態放進vuex的state中,就可以透過改變state來操作路由
 import App from 'front_com/Home'
 import router from 'router/frontRouter'
 import store from 'front_store/index'
@@ -13,20 +13,7 @@ if (typeof window !== "undefined") {
 //每次服务端请求渲染时会重新createApp，初始化这些store、router
 //不然会出现数据还是原来的数据没有变化的问题
 export function createApp(ssrContext) {
-    sync(store, router)
-
-    if (typeof window !== "undefined") {
-        router.beforeEach((to, from, next) => {
-            if (to.path === '/' && store.state.sideBoxOpen) {
-                store.commit('CLOSE_SIDEBOX')
-                setTimeout(function() {
-                    next()
-                }, 100)
-            } else {
-                next()
-            }
-        })
-    }
+    sync(store, router);
 
     const app = new Vue({
         router,
