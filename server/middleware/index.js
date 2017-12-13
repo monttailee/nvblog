@@ -1,7 +1,7 @@
-import logger from 'koa-logger';//log
-import bodyParser from 'koa-bodyparser';//解析body
-import compress from 'koa-compress';//压缩
-import convert from 'koa-convert';//兼容
+const logger = require('koa-logger')
+const bodyParser = require('koa-bodyparser')//解析body
+const compress = require('koa-compress')//压缩
+const convert = require('koa-convert')//兼容
 
 export default function middleware() {
     //对不支持koa2的中间件使用koa-convert来做兼容

@@ -80,8 +80,9 @@ let commonPlugins = [
               reduce_vars: true,//提取变量
             }
           }),
+          //抽离css样式
           new ExtractTextPlugin('[name].[contenthash].css'),
-          //Compress extracted CSS
+          //压缩提取出的css，并解决ExtractTextPlugin分离出的js重复问题(多个文件引入同一css文件)
           new OptimizeCSSPlugin({
             cssProcessorOptions: {
               safe: true

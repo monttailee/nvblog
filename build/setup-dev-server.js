@@ -1,5 +1,6 @@
 /**
- * 方便开发过程，实现代码热更新和浏览器自动刷新
+ * 开发环境下  被koa server调用
+ * 创建一个render
  * */
 const path = require('path')
 const webpack = require('webpack')
