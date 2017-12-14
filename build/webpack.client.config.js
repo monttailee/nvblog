@@ -42,6 +42,7 @@ let commonPlugins = [
 
   if(!productionEnv){
     //------------------------dev------------------------
+    //修改配置用于热加载
     Object.keys(baseConfig.entry).forEach(function (name) {
       baseConfig.entry[name] = ['webpack-hot-middleware/client?reload=true'].concat(baseConfig.entry[name])
     })
