@@ -25,7 +25,7 @@ let commonPlugins = [
   new HtmlPlugin({
     filename: 'admin.html',
     template: '../src/template/admin.html',
-    inject: 'body',//脚本插到body底部
+    inject: true,//脚本插到body
     chunks: ['vendor', 'admin']//引入生成的js文件
   }),
   new HtmlPlugin({
@@ -61,13 +61,13 @@ if(!productionEnv){
       rules: require('./../build/styleLoader').styleLoaders({ sourceMap: true, extract: true })
     },
     output: {
-      filename: '[name].[chunkhash:8].js'
+      filename: '[name].[chunkhash:5].js'
     },
     plugins: commonPlugins.concat(
       [
-        new ExtractTextPlugin({ filename: '[name].[contenthash].css' }),
+        new ExtractTextPlugin('[name].[contenthash:5].css'),
         // Compress extracted CSS
-        new OptimizeCSSPlugin({cssProcessorOptions: { safe: true }}),
+        new OptimizeCSSPlugin(),
         new webpack.optimize.UglifyJsPlugin({
           compress: {
             warnings: false

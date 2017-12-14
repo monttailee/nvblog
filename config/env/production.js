@@ -5,13 +5,13 @@ let config = {
         baseApi: '/routers'
     },
     mongodb: {
-        url: 'mongodb://localhost:27017/vue-blog'
+        url: 'mongodb://localhost:27017/vue-blog-pro'
     },
     jwt: {
         secret: 'blog' //默认
     },
     mongodbSecret: { //mongodb用户和密码
-        user: 'blog01',
+        user: 'vue-blog-pro',
         pass: '870810'
     },
     admin: {  //后台初始化的用户名密码

@@ -11,7 +11,7 @@ let config = {
         secret: 'blog' //默认
     },
     mongodbSecret: { //mongodb用户和密码
-        user: 'blog01',
+        user: 'vue-blog',
         pass: '870810'
     },
     admin: {  //后台初始化的用户名密码
