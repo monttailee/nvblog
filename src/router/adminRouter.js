@@ -8,7 +8,7 @@ import store from 'admin_store/store'
 import Login from 'admin_com/Login'
 import Admin from 'admin_com/Admin'
 
-Vue.use(VueRouter);//全局注册
+Vue.use(VueRouter)
 
 const router = new VueRouter({
     mode: 'history',// 两种类型history 还有 hash
@@ -33,7 +33,7 @@ const router = new VueRouter({
             redirect: '/admin' //输入其他不存在的地址重定向跳回首页
         }
     ]
-});
+})
 
 //全局钩子全局用
 router.beforeEach((to, from, next) => {
@@ -48,9 +48,9 @@ router.beforeEach((to, from, next) => {
         }
         next()
     }
-});
+})
 
-export default router;
+export default router
 
 //http://blog.csdn.net/CatieCarter/article/details/76178590?locationNum=6&fps=1    vue路由
 //https://www.cnblogs.com/heioray/p/7193841.html  vue-router模式/钩子函数

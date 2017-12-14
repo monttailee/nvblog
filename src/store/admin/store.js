@@ -6,7 +6,7 @@ Vue.use(Vuex);
 import auth from './authModule/index'
 import editor from './editorModule/index'
 
-const debug = process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
     modules: {

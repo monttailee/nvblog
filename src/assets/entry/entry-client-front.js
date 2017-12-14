@@ -1,9 +1,7 @@
 /**
  * front入口文件(client-render)
  * */
-import { createApp } from './front'
-
-const { app, router, store } = createApp()
+import { app, router, store } from './front'
 
 //replaceState的作用是替换整个 rootState
 if (window.__INITIAL_STATE__) {

@@ -1,4 +1,3 @@
-//获取配置信息+运行环境
 const SERVER_ENV = process.env.NODE_ENV
 global.ENV_CONFIG = require('../config/env/' + SERVER_ENV)
 const isProd = SERVER_ENV === 'production'
@@ -29,7 +28,7 @@ mongodb.connect()
 let renderer
 if (isProd) {
   //生产环境,bundle是构建完成的正式文件
-  const bundle = require('../dist/server-bundle.js')
+  const bundle = require('../dist/vue-ssr-bundle.json')
   const template = fs.readFileSync(resolve('../dist/front.html'), 'utf-8')
   renderer = createRenderer(bundle, template)
 
@@ -64,9 +63,8 @@ app.use(staticServer(resolve('../dist')))
 //路由
 app.use(routerApi())
 
-//connect-history-api-fallback让你的单页面路由处理更自然
-//对路由admin直接走historyApiFallback,而不是用服务端渲染
-//  */admin 或者 */admin/login 均渲染admin.html
+//路由admin被拦截走historyApiFallback,不用服务端渲染
+// */admin 或者 */admin/login 均渲染admin.html
 app.use(convert(historyApiFallback({
     verbose: true,
     index: '/admin.html',
@@ -111,7 +109,6 @@ app
     .use(router.routes())
     .use(router.allowedMethods())
 
-//启动服务
 const port = ENV_CONFIG.app.port || 3000
 app.listen(port, () => {
     console.log('Koa2 server is running at http://localhost:' + port)

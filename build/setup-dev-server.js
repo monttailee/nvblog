@@ -35,7 +35,7 @@ module.exports = function setupDevServer (app, cb) {
             }
         }
     })
-    //node-server应用热加载
+    //入口文件变化自动热加载
     app.use(require('./middle-hot')(clientCompiler))
 
     //node-server监听文件变动并自动更新
@@ -48,7 +48,7 @@ module.exports = function setupDevServer (app, cb) {
         stats.errors.forEach(err => console.error(err))
         stats.warnings.forEach(err => console.warn(err))
 
-        const bundlePath = path.join(serverConfig.output.path, serverConfig.output.filename)
+        const bundlePath = path.join(serverConfig.output.path, 'vue-ssr-bundle.json')
         bundle = JSON.parse(mfs.readFileSync(bundlePath, 'utf-8'))
         if (template) {
             cb(bundle, template)

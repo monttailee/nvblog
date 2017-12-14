@@ -4,7 +4,7 @@ import mutations from './mutations'
 import actions from './action'
 import getters from './getters'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const state = {
     currentPost: {
@@ -18,13 +18,13 @@ const state = {
     tags: [],
     selectTags: [],
     sideBoxOpen: false
-};
-
-export function createStore() {
-  return new Vuex.Store({
-    state,
-    getters,
-    actions,
-    mutations
-  })
 }
+
+const store = new Vuex.Store({
+  state,
+  getters,
+  actions,
+  mutations
+})
+
+export default store

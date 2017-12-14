@@ -7,8 +7,14 @@ const isPro = process.env.NODE_ENV === 'production'
 
 module.exports = {
     entry: {
-        'admin': '../src/assets/entry/entry-client-admin.js',
-        'front': '../src/assets/entry/entry-client-front.js'
+        admin: '../src/assets/entry/entry-client-admin.js',
+        front: '../src/assets/entry/entry-client-front.js',
+        vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
+    },
+    output: {
+      path: path.resolve(__dirname, '../dist'),
+      publicPath: '/dist/',
+      filename: '[name].js'
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],//解析模块时应该搜索的目录
@@ -28,11 +34,6 @@ module.exports = {
             'front_store': path.resolve(__dirname, '../src/store/front'),
             'css': path.resolve(__dirname, '../src/assets/css'),
         }
-    },
-    output: {
-        path: path.resolve(__dirname, '../dist'),
-        publicPath: '/dist/',
-        filename: '[name].js'
     },
     externals: {
         'simplemde': 'SimpleMDE'
@@ -57,8 +58,7 @@ module.exports = {
                     sourceMap: isPro,
                     extract: isPro
                   }),
-                  preserveWhitespace: false,
-                  postcss: [require('autoprefixer')({ browsers: ['last 7 versions'] })]
+                  postcss: [require('autoprefixer')({ browsers: ['last 3 versions'] })]
                 }
             },
             {

@@ -20,49 +20,47 @@ import store from 'front_store/index'
 import List from 'front_com/List'
 import Article from 'front_com/Article'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
-export function createRouter() {
-  const router = new VueRouter({
-    mode: 'history',
-    scrollBehavior: (to, from, savedPosition) => {//在后退时回到之前的滚动的位置
-      let _nav = to == from ? 'same' : 'null';
-      sessionStorage.setItem('navigatorAction', _nav)
-    },
-    routes: [
-      { path: '/', component: List },
-      { path: '/article/:id', component: Article, meta: { scrollToTop: true } },
-      { path: '/page/:page', component: List },
-      { path: '*', redirect: '/' }
-    ]
-  });
+const router = new VueRouter({
+  mode: 'history',
+  scrollBehavior: (to, from, savedPosition) => {//在后退时回到之前的滚动的位置
+    let _nav = to == from ? 'same' : 'null';
+    sessionStorage.setItem('navigatorAction', _nav)
+  },
+  routes: [
+    { path: '/', component: List },
+    { path: '/article/:id', component: Article, meta: { scrollToTop: true } },
+    { path: '/page/:page', component: List },
+    { path: '*', redirect: '/' }
+  ]
+})
 
-  //全局钩子
-  router.beforeEach((to, from, next) => {
-    if (typeof window !== "undefined"){
-      if (to.path === '/' && store.state.sideBoxOpen) {
-        store.commit('CLOSE_SIDEBOX');
-        setTimeout( () => next(), 100)
+//全局钩子
+router.beforeEach((to, from, next) => {
+  if (typeof window !== "undefined"){
+    if (to.path === '/' && store.state.sideBoxOpen) {
+      store.commit('CLOSE_SIDEBOX');
+      setTimeout( () => next(), 100)
 
-      } else {
-        next()
+    } else {
+      next()
+    }
+  }
+})
+
+router.afterEach((to, from) => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      if (sessionStorage.getItem('navigatorAction') == 'same') {
+        return;
       }
-    }
-  });
+      if (document && to.meta.scrollToTop) {
+        //回到顶部
+        document.body.scrollTop = 0
+      }
+    }, 200)
+  }
+})
 
-  router.afterEach((to, from) => {
-    if (typeof window !== "undefined") {
-      setTimeout(() => {
-        if (sessionStorage.getItem('navigatorAction') == 'same') {
-          return;
-        }
-        if (document && to.meta.scrollToTop) {
-          //回到顶部
-          document.body.scrollTop = 0
-        }
-      }, 200)
-    }
-  });
-
-  return router
-}
+export default router
