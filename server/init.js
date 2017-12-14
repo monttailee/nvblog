@@ -77,7 +77,7 @@ app.use(convert(historyApiFallback({
     path: /^\/admin/
 })))
 
-//ssr渲染
+//ssr渲染页面内容
 router.get('*', async(ctx, next) => {
     if (!renderer) {
       return ctx.body = 'waiting for compilation... refresh in a moment.'
