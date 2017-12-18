@@ -1,8 +1,8 @@
 export default function(fn, time) {
-    var timer;
-    var firstTime = true;
+    var timer
+    var firstTime = true
     return function() {
-        var args = arguments;
+        var args = arguments
         if (firstTime) {
             fn.apply(this, arguments);
             return firstTime = false

@@ -36,11 +36,21 @@
     import Loading from 'common_com/Loading'
     import Side from 'common_com/Side'
     import marked from 'lib/marked'
-
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'list',
+        data() {
+          return {
+            isLoading: false,
+            loadingMsg: '加载中...'
+          }
+        },
+        preFetch(store) {
+          //页面init ssr
+          store.dispatch('getAllTags')
+          return store.dispatch('getAllPosts',{page:store.state.route.params.page})
+        },
         computed: {
             ...mapGetters([
                 'posts',
@@ -54,38 +64,21 @@
             filterMsg() {
                 let msg = ''
                 this.selectTags.forEach((item) => {
-                    msg += item.name + '、'
+                    msg += `${item.name}、`
                 })
                 return msg.replace(/、$/, '')
             }
         },
-        components: {
-            Pagination,
-            Side,
-            Loading
-        },
-        data() {
-            return {
-                isLoading: false,
-                loadingMsg: '加载中...'
-            }
-        },
+        components: { Pagination, Side, Loading },
         created() {
         },
         beforeMount() {
-            // 用来判断是否有数据，有数据就不再请求了
-            if(this.currentPost.id == '') {
-                // 这句话说明不是从文章详细页过来的
-                return;
-            }
-            this.isLoading = true;
+            //用来判断是否有数据，有数据就不再请求了
+            if(this.currentPost.id == '')
+              return
+            this.isLoading = true
             this.getAllPosts({page:this.$store.state.route.params.page}).then(()=> {
-                this.isLoading = false;
-            })
-        },
-        preFetch(store) {
-            store.dispatch('getAllTags')
-            return store.dispatch('getAllPosts',{page:store.state.route.params.page}).then(()=>{
+                this.isLoading = false
             })
         },
         methods: {
@@ -97,25 +90,26 @@
                 return marked(value)
             },
             changePage(cur) {
-                this.isLoading = true;
+                this.isLoading = true
                 this.$router.push('/page/' + cur)
                 this.getAllPosts({tag:this.searchTags, page:cur}).then(() => {
-                    this.isLoading = false;
+                    this.isLoading = false
                 })
             }
         },
         watch: {
             selectTags() {
-                this.isLoading = true;
+                this.isLoading = true
                 this.getAllPosts({
                     tag: this.searchTags
                 }).then(()=> {
-                    this.isLoading = false;
+                    this.isLoading = false
                 })
             }
         }
     }
 </script>
+
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     @import 'css/_settings.styl'
     .list

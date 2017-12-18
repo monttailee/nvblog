@@ -29,25 +29,15 @@
 
 <script>
     import throttle from 'lib/throttle'
-
-    import {
-            mapGetters,
-            mapMutations,
-            mapActions
-    } from 'vuex'
+    import { mapGetters, mapMutations, mapActions } from 'vuex'
 
     export default {
         name: 'sideBox',
         data() {
             return {
                 tagList: [],
-                //selectTagArr: [],
-                //sideBoxOpen: false,
                 scrollTop: 0,
-                iconList: [{
-                    name: 'github',
-                    href: 'https://github.com/BUPT-HJM'
-                }]
+                iconList: [{name: 'github', href: 'https://github.com/monttailee'}]
             }
         },
         props: {
@@ -65,13 +55,12 @@
                 'tags',
                 'selectTags',
                 'sideBoxOpen'
-            ]),
+            ])
         },
         created() {
             if(typeof window == 'undefined') {
-                return;
+                return
             }
-            console.log('side created')
             if(!this.isInList) {
                 window.onscroll = throttle(this.getScrollTop, 30)
             }
@@ -80,7 +69,6 @@
             }
         },
         beforeDestroy() {
-            console.log('side beforeDestroy')
             window.onscroll = null
         },
         methods: {
@@ -90,40 +78,32 @@
                 closeSideBox: 'CLOSE_SIDEBOX',
                 toggleSelectTags: 'TOGGLE_SELECT_TAGS'
             }),
-            ...mapActions([
-                'getAllTags'
-            ]),
+            ...mapActions(['getAllTags']),
             backToIndex() {
                 this.$router.push('/')
             },
             getScrollTop() {
-                let scrollTop = 0,
-                        bodyScrollTop = 0,
-                        documentScrollTop = 0;
+                let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
                 if (document.body) {
                     // 如果屏幕宽度小于850就直接return,不再去获取滚动值
                     if(document.body.clientWidth < 850) {
-                        return;
+                        return
                     }
-                    bodyScrollTop = document.body.scrollTop;
+                    bodyScrollTop = document.body.scrollTop
                 }
                 if (document.documentElement) {
-                    documentScrollTop = document.documentElement.scrollTop;
+                    documentScrollTop = document.documentElement.scrollTop
                 }
-                console.log(this.scrollTop)
-                this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-                // console.log(this.scrollTop)
+
+                this.scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop
             },
             clearSelectTagArr() {
                 this.setSelectTags([])
             }
-        },
-        watch: {
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     @import 'css/_settings.styl'
     .sideBox
@@ -267,6 +247,7 @@
             position static
             width auto
 </style>
-<style>
+
+<style lang="stylus" rel="stylesheet/stylus">
     @import 'css/iconfont.css'
 </style>

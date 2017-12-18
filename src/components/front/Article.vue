@@ -15,17 +15,12 @@
 
 <script>
     import Loading from 'common_com/Loading'
-    import marked from 'lib/marked'
     import Side from 'common_com/Side'
-
-    import {
-            mapGetters,
-            mapActions
-    } from 'vuex'
+    import marked from 'lib/marked'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'article',
-        computed: {},
         data() {
             return {
                 category: [],
@@ -34,48 +29,23 @@
             }
         },
         computed: {
-            ...mapGetters([
-                'currentPost',
-                'currentPostCompile'
-            ]),
+            ...mapGetters(['currentPost', 'currentPostCompile']),
             compiledPost() {
                 return this.compiledMarkdown(this.$store.state.currentPost.content)
             }
         },
-        components: {
-            Side,
-            Loading
-        },
+        components: { Side, Loading },
         beforeMount() {
-            // 如果想等说明数据已经拿到，就没必要进行再去取数据了
+            //组件渲染之前
             if(this.currentPost.id == this.$route.params.id) {
-                this.$nextTick(() => {
-                    // 提取文章标签，生成目录
-                    Array.from(this.$refs.post.querySelectorAll("h1,h2,h3,h4,h5,h6")).forEach((item, index) => {
-                        item.id = item.localName + '-' + index;
-                        this.category.push({
-                            tagName: item.localName,
-                            text: item.innerText,
-                            href: '#' + item.localName + '-' + index
-                        })
-                    })
-                })
-                return;
+              //下次 DOM 更新循环结束之后执行延迟回调,在回调中获取更新后的 DOM
+                this.$nextTick(() => { this.createFlag() })
+                return
             }
+
             this.isLoading = true;
             this.getPost(this.$route.params.id).then(() => {
-                this.isLoading = false;
-                this.$nextTick(() => {
-                    // 提取文章标签，生成目录
-                    Array.from(this.$refs.post.querySelectorAll("h1,h2,h3,h4,h5,h6")).forEach((item, index) => {
-                        item.id = item.localName + '-' + index;
-                        this.category.push({
-                            tagName: item.localName,
-                            text: item.innerText,
-                            href: '#' + item.localName + '-' + index
-                        })
-                    })
-                })
+                this.$nextTick(() => { this.createFlag() })
             })
         },
         preFetch(store) {
@@ -83,24 +53,33 @@
         },
         mounted() {
             //this.compiledPost = this.compiledMarkdown(this.currentPost.content)
-            //this.isLoading = false
+            this.isLoading = false
         },
         methods: {
-            ...mapActions([
-                'getPost'
-            ]),
+            ...mapActions(['getPost']),
             compiledMarkdown(value) {
                 return marked(value)
+            },
+            createFlag() {
+              //提取文章标签，生成目录
+              Array.from(this.$refs.post.querySelectorAll("h1,h2,h3,h4,h5,h6")).forEach((item, index) => {
+                item.id = item.localName + '-' + index;
+                this.category.push({
+                  tagName: item.localName,
+                  text: item.innerText,
+                  href: '#' + item.localName + '-' + index
+                })
+              })
             }
         }
     }
 </script>
 
-<style lang="stylus">
-    @import '../../assets/css/markdown.styl'
+<style lang="stylus" rel="stylesheet/stylus">
+    @import 'css/markdown.styl'
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-    @import '../../assets/css/_settings.styl'
+    @import 'css/_settings.styl'
     .article
         max-width 1000px
         margin 85px auto 0 auto

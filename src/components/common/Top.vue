@@ -1,7 +1,7 @@
 <template>
     <header class="top-header">
         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAQAAAD9CzEMAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAALEwAACxMBAJqcGAAAADlJREFUWMPt08ERACAIBDEomvqxBh18EQogn9us+HsJAAAAt0BPfQU8A2YKULKSdQAQmpIBAMBm4AAtdCIhmRB8RAAAAABJRU5ErkJggg==" alt="" class="top-header__menu-button" @click.stop="toggleSideBox">
-        <router-link to="/" class="top-header__main-icon" @click.native='clearFilter'>HJM's Blog</router-link>
+        <router-link to="/" class="top-header__main-icon" @click.native='clearFilter'>MONTAI's Blog</router-link>
     </header>
 </template>
 <script>
@@ -12,12 +12,7 @@
         data() {
             return {}
         },
-        created() {
-        },
         methods: {
-            ...mapActions([
-                    'getAllPosts'
-                ]),
             ...mapMutations({
                     toggleSideBox: 'TOGGLE_SIDEBOX',
                     setSelectTags: 'SET_SELECT_TAGS'
@@ -25,12 +20,10 @@
                 clearFilter() {
                     this.setSelectTags([])
                 }
-        },
-        computed: {
         }
     }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="stylus" rel="stylesheet/stylus" scoped>
     @import 'css/_settings.styl'
     .top-header

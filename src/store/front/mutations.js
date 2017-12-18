@@ -32,10 +32,7 @@ export default {
         if (typeof state.selectTags.find(function(e) {
                 return e.id == id
             }) == 'undefined') {
-            state.selectTags.push({
-                id,
-                name
-            })
+            state.selectTags.push({id, name})
         } else {
             state.selectTags = state.selectTags.filter((e) => {
                 return e.id !== id;

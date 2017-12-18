@@ -6,7 +6,7 @@ import getters from './getters'
 
 Vue.use(Vuex)
 
-const state = {
+const defaultState = {
     currentPost: {
         content: '',
         id: ''
@@ -20,11 +20,14 @@ const state = {
     sideBoxOpen: false
 }
 
-const store = new Vuex.Store({
-  state,
-  getters,
-  actions,
-  mutations
-})
+const inBrowser = typeof window !== 'undefined'
 
-export default store
+// if in browser, use pre-fetched state injected by SSR
+const state = (inBrowser && window.__INITIAL_STATE__) || defaultState
+
+export default new Vuex.Store({
+  state,
+  actions,
+  mutations,
+  getters
+})
