@@ -43,49 +43,49 @@
                 articleTag: '',
                 tags: [],
                 articleTitle: '',
-                articleContent: '',
+                articleContent: ''
             }
         },
         computed: {
             ...mapGetters([
                 'currentArticle',
                 'selectTagArr'
-            ]),
+            ])
         },
-        mounted: function() {
-            // dom渲染完成后置入编辑器当前文章内容
-            this.$nextTick(() => {
-                this.articleTitle = this.currentArticle.title;
-                this.articleContent = this.currentArticle.content;
-                simplemde.value(this.articleContent);
-            })
-            simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: false,
-                element: document.getElementById("editor"),
-                spellChecker: false,
-                previewRender: function(plainText) {
-                    return marked(plainText); // Returns HTML from a custom parser
-                },
-            });
-            simplemde.codemirror.on("change", () => {
-                let value = simplemde.value();
-                // 如果文章内容相同就不保存了
-                if (this.currentArticle.content === value) {
-                    return;
-                }
-                // 如果文章已经保存
-                if (this.currentArticle.save) {
-                    // 改变文章状态 => 未保存
-                    this.$store.dispatch('changeArticle');
-                }
-                // 如果不是新建的文章，则保存，这是自动保存，如果不要自动保存可以注释
-                if (this.currentArticle.id !== -1) {
-                    this.saveArticle({
-                        content: value
-                    })
-                }
-                this.articleContent = value
-            })
+        mounted() {
+          // dom渲染完成后置入编辑器当前文章内容
+          this.$nextTick(() => {
+            this.articleTitle = this.currentArticle.title;
+            this.articleContent = this.currentArticle.content;
+            simplemde.value(this.articleContent);
+          })
+          simplemde = new SimpleMDE({
+            autoDownloadFontAwesome: false,
+            element: document.getElementById("editor"),
+            spellChecker: false,
+            previewRender: function(plainText) {
+                return marked(plainText); // Returns HTML from a custom parser
+            }
+          });
+          simplemde.codemirror.on("change", () => {
+            let value = simplemde.value();
+            // 如果文章内容相同就不保存了
+            if (this.currentArticle.content === value) {
+                return;
+            }
+            // 如果文章已经保存
+            if (this.currentArticle.save) {
+                // 改变文章状态 => 未保存
+                this.$store.dispatch('changeArticle');
+            }
+            // 如果不是新建的文章，则保存，这是自动保存，如果不要自动保存可以注释
+            if (this.currentArticle.id !== -1) {
+                this.saveArticle({
+                    content: value
+                })
+            }
+            this.articleContent = value
+          })
         },
         methods: {
             ...mapActions([
@@ -148,10 +148,9 @@
                         this.$message({
                             message: '保存成功',
                             type: 'success'
-                        });
+                        })
                     }
                 }).catch((err) => {
-                    console.log(err);
                     this.$message.error(err.response.data.error)
                 })
             }),
@@ -291,7 +290,7 @@
     }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" rel="stylesheet/stylus">
     @import 'css/preview.styl'
 </style>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

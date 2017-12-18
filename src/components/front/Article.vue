@@ -28,6 +28,9 @@
                 loadingMsg: '加载中...'
             }
         },
+        preFetch(store) {
+          return store.dispatch('getPost',store.state.route.params.id)
+        },
         computed: {
             ...mapGetters(['currentPost', 'currentPostCompile']),
             compiledPost() {
@@ -40,23 +43,23 @@
             if(this.currentPost.id == this.$route.params.id) {
               //下次 DOM 更新循环结束之后执行延迟回调,在回调中获取更新后的 DOM
                 this.$nextTick(() => { this.createFlag() })
-                return
+                return;
             }
 
             this.isLoading = true;
             this.getPost(this.$route.params.id).then(() => {
-                this.$nextTick(() => { this.createFlag() })
+              this.isLoading = false;
+              this.$nextTick(() => { this.createFlag() })
             })
-        },
-        preFetch(store) {
-            return store.dispatch('getPost',store.state.route.params.id)
         },
         mounted() {
             //this.compiledPost = this.compiledMarkdown(this.currentPost.content)
-            this.isLoading = false
+            //this.isLoading = false
         },
         methods: {
-            ...mapActions(['getPost']),
+            ...mapActions([
+              'getPost'
+            ]),
             compiledMarkdown(value) {
                 return marked(value)
             },

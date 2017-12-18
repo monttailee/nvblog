@@ -64,21 +64,20 @@
         methods: {
             prevPage() {
                 if (this.curPage <= 1) {
-                    return;
+                    return
                 }
                 this.$emit('changePage', this.curPage - 1)
             },
             nextPage() {
                 if (this.curPage >= this.allPage) {
-                    return;
+                    return
                 }
                 this.$emit('changePage', this.curPage + 1)
             },
             switchPage(page) {
                 if (page == '...') {
-                    return;
+                    return
                 }
-                console.log(page)
                 // 触发父组件的changePage方法，实现从父组件再修改props,单向数据流
                 this.$emit('changePage', page)
             }

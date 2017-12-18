@@ -24,26 +24,21 @@
 
     export default {
         name: 'admin',
-        components: {
-            editor,
-            list
-        },
+        components: { editor, list },
         data() {
             return {}
         },
         created() {
         },
         methods: {
-            ...mapMutations({
-                'DELETE_TOKEN'
-            }),
+            ...mapMutations(['DELETE_TOKEN']),
             logout() {
                 this.$confirm('此操作将退出系统, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.DELETE_TOKEN();
+                    this.DELETE_TOKEN()
                     this.$router.replace({path: '/admin/login'})
                 }).catch(() => {
                 })
