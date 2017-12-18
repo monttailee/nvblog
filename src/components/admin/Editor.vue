@@ -17,8 +17,8 @@
         </ul>
         <textarea id="editor"></textarea>
         <div class="editor-box__button-box">
-            <button @click="createArticle" v-if="currentArticle.id === -1">创建</button>
-            <button @click="saveArticle({button: 'true'})" v-else>保存</button>
+            <button @click="createArticleHandle" v-if="currentArticle.id === -1">创建</button>
+            <button @click="saveArticleHandle({button: 'true'})" v-else>保存</button>
             <template v-if="currentArticle.id !== -1">
                 <button @click="publishArticle" v-if="!currentArticle.publish">发布</button>
                 <button @click="notPublishArticle" v-else>撤回发布</button>
@@ -73,14 +73,13 @@
             if (this.currentArticle.content === value) {
                 return;
             }
-            // 如果文章已经保存
+            // 改变文章状态 => 未保存
             if (this.currentArticle.save) {
-                // 改变文章状态 => 未保存
-                this.$store.dispatch('changeArticle');
+              this.changeArticle()
             }
             // 如果不是新建的文章，则保存，这是自动保存，如果不要自动保存可以注释
             if (this.currentArticle.id !== -1) {
-                this.saveArticle({
+                this.saveArticleHandle({
                     content: value
                 })
             }
@@ -91,36 +90,35 @@
             ...mapActions([
                 'getCurrentArticle',
                 'getAllTags',
-                'getAllArticles'
+                'getAllArticles',
+                'saveArticle',
+                'createArticle'
             ]),
             ...mapMutations({
-                clearSelect: 'CLEAR_SELECT_TAG'
+                clearSelect: 'CLEAR_SELECT_TAG',
+                changeArticle: 'CHANGE_ARTICLE'
             }),
-            createArticle() {
-                const info = {
-                    title: this.articleTitle,
-                    content: this.articleContent,
-                    publish: false,
-                    tags: this.currentArticle.tags
-                }
-                this.$store.dispatch('createArticle', info).then((res) => {
-                    if (res.data.success) {
-                        this.$message({
-                            message: '创建成功',
-                            type: 'success'
-                        });
-                        // 这里不再需要getAllArticles因为有watch函数监听变化
-                        //this.getAllArticles().then(res => {
-                        //  this.clearSelect();
-                        //})
-                        this.clearSelect();
-                    }
+            createArticleHandle() {
+                this.createArticle({
+                  title: this.articleTitle,
+                  content: this.articleContent,
+                  publish: false,
+                  tags: this.currentArticle.tags
+                }).then((res) => {
+                  if (res.data.success) {
+                    this.$message({
+                      message: '创建成功',
+                      type: 'success'
+                    })
+
+                    this.clearSelect()
+                  }
                 }).catch((err) => {
-                    this.$message.error(err.response.data.error)
+                  this.$message.error(err.response.data.error)
                 })
             },
-            // 保存文章引入去抖
-            saveArticle: debounce(function({
+            //保存文章引入去抖
+            saveArticleHandle: debounce(function({
                     title = this.articleTitle,
                     content = this.articleContent,
                     button = false
@@ -139,19 +137,18 @@
                     tags: this.currentArticle.tags,
                     lastEditTime: new Date()
                 }
-                this.$store.dispatch('saveArticle', {
-                    id: this.currentArticle.id,
-                    article
+                this.saveArticle({
+                  id: this.currentArticle.id,
+                  article
                 }).then((res) => {
-                    console.log("save article")
-                    if (res.data.success && button) {
-                        this.$message({
-                            message: '保存成功',
-                            type: 'success'
-                        })
-                    }
+                  if (res.data.success && button) {
+                    this.$message({
+                      message: '保存成功',
+                      type: 'success'
+                    })
+                  }
                 }).catch((err) => {
-                    this.$message.error(err.response.data.error)
+                  this.$message.error(err.response.data.error)
                 })
             }),
             publishArticle() {
@@ -165,7 +162,6 @@
                         });
                     }
                 }).catch((err) => {
-                    console.log(err)
                     this.$message.error(err.response.data.error)
                 })
             },
@@ -240,7 +236,7 @@
                             this.getAllTags();
                             this.articleTag = ''
                             if (this.currentArticle.id !== -1) {
-                                this.saveArticle({})
+                                this.saveArticleHandle({})
                             }
                         }
                     }).catch((err) => {
@@ -257,7 +253,7 @@
                 }).then(() => {
                     this.$store.dispatch('deleteCurrentTag', {index}).then((res) => {
                         if (this.currentArticle.id !== -1) {
-                            this.saveArticle({})
+                            this.saveArticleHandle({})
                         }
                         this.getAllTags();
                     }).catch((err) => {
@@ -280,8 +276,8 @@
             articleTitle(val) {
                 // 监听v-model, 假如变化并且不是新建文章则保存
                 if (this.currentArticle.title !== val && this.currentArticle.id !== -1) {
-                    this.$store.dispatch('changeArticle')
-                    this.saveArticle({
+                    this.changeArticle()
+                    this.saveArticleHandle({
                         title: val
                     })
                 }

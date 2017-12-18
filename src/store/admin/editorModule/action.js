@@ -9,8 +9,10 @@ import { dealResult } from 'utils/index'
 
 export default {
     async createArticle({commit, state}, {title, content, publish, tags}){
-        let res = await createArticle(title, content, publish, tags);
-        dealResult(res, () => commit(CREATE_ARTICLE, {save: true}))
+      let res = await createArticle(title, content, publish, tags)
+      dealResult(res, () => commit(CREATE_ARTICLE, {save: true}))
+
+      return res
     },
 
     async getAllArticles({commit, state, dispatch}, {tag = '', page = 1, limit = 0} = {}){
@@ -52,8 +54,10 @@ export default {
     },
 
     async saveArticle({commit, state}, {id, article}){
-        let res = await saveArticle(id, article);
-        dealResult(res, () => commit(SAVE_ARTICLE, {id, article}))
+      let res = await saveArticle(id, article)
+      dealResult(res, () => commit(SAVE_ARTICLE, {id, article}))
+
+      return res
     },
 
     async publishArticle({commit, state}, {id}){
