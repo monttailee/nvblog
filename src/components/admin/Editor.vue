@@ -20,10 +20,10 @@
             <button @click="createArticleHandle" v-if="currentArticle.id === -1">创建</button>
             <button @click="saveArticleHandle({button: 'true'})" v-else>保存</button>
             <template v-if="currentArticle.id !== -1">
-                <button @click="publishArticle" v-if="!currentArticle.publish">发布</button>
-                <button @click="notPublishArticle" v-else>撤回发布</button>
+                <button @click="publishArticleHandle" v-if="!currentArticle.publish">发布</button>
+                <button @click="notPublishArticleHandle" v-else>撤回发布</button>
             </template>
-            <button @click="deleteArticle">删除</button>
+            <button @click="deleteArticleHandle">删除</button>
         </div>
     </div>
 </template>
@@ -92,7 +92,10 @@
                 'getAllTags',
                 'getAllArticles',
                 'saveArticle',
-                'createArticle'
+                'createArticle',
+                'publishArticle',
+                'notPublishArticle',
+                'deleteArticle'
             ]),
             ...mapMutations({
                 clearSelect: 'CLEAR_SELECT_TAG',
@@ -151,35 +154,31 @@
                   this.$message.error(err.response.data.error)
                 })
             }),
-            publishArticle() {
-                this.$store.dispatch('publishArticle', {
-                    id: this.currentArticle.id
-                }).then((res) => {
-                    if (res.data.success) {
-                        this.$message({
-                            message: '发布成功',
-                            type: 'success'
-                        });
-                    }
+            publishArticleHandle() {
+                this.publishArticle({id: this.currentArticle.id}).then((res) => {
+                  if (res.data.success) {
+                    this.$message({
+                      message: '发布成功',
+                      type: 'success'
+                    })
+                  }
                 }).catch((err) => {
-                    this.$message.error(err.response.data.error)
+                  this.$message.error(err.response.data.error)
                 })
             },
-            notPublishArticle() {
-                this.$store.dispatch('notPublishArticle', {
-                    id: this.currentArticle.id
-                }).then((res) => {
+            notPublishArticleHandle() {
+                this.notPublishArticle({id: this.currentArticle.id}).then((res) => {
                     if (res.data.success) {
                         this.$message({
                             message: '撤回发布成功',
                             type: 'success'
-                        });
+                        })
                     }
                 }).catch((err) => {
                     this.$message.error(err.response.data.error)
                 })
             },
-            deleteArticle() {
+            deleteArticleHandle() {
                 this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -189,7 +188,7 @@
                         this.getCurrentArticle(0)
                         return;
                     }
-                    this.$store.dispatch('deleteArticle', {
+                    this.deleteArticle({
                         id: this.currentArticle.id,
                         index: this.currentArticle.index
                     }).then((res) => {
@@ -197,13 +196,10 @@
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
-                            });
-                            //this.getAllArticles();
-                            //因为clearSelect就可以更新全部文章了
-                            this.clearSelect();
+                            })
+                            this.clearSelect()
                         }
                     }).catch((err) => {
-                        console.log(err)
                         this.$message.error(err.response.data.error)
                     })
                 }).catch(() => {

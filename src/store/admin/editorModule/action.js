@@ -61,13 +61,17 @@ export default {
     },
 
     async publishArticle({commit, state}, {id}){
-        let res = await publishArticle(id);
+        let res = await publishArticle(id)
         dealResult(res, () => commit(PUBLISH_ARTICLE, id))
+
+      return res
     },
 
     async notPublishArticle({commit, state}, {id}){
-        let res = await notPublishArticle(id);
+        let res = await notPublishArticle(id)
         dealResult(res, () => commit(NOT_PUBLISH_ARTICLE, id))
+
+      return res
     },
 
     async deleteArticle({commit, state}, {id, index}){
@@ -81,10 +85,11 @@ export default {
                     content: '',
                     save: false,
                     publish: false
-                };
+                }
                 commit(GET_CURRENT_ARTICLE, article)
             }
         })
+      return res
     },
 
     async createTag({commit, state}, {name}){
