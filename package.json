@@ -1,8 +1,8 @@
 {
-  "name": "vue-blog",
+  "name": "nvblog",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "a blog platform built with vue2, koa2 and mongo",
+  "description": "a blog project built with vue2, koa2 and mongo",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server/start.js",
     "dev": "nodemon server/start.js",
