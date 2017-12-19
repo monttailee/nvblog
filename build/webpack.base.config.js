@@ -7,8 +7,8 @@ const isPro = process.env.NODE_ENV === 'production'
 
 module.exports = {
     entry: {
-        admin: '../src/assets/entry/entry-client-admin.js',
-        front: '../src/assets/entry/entry-client-front.js',
+        admin: '../src/assets/entry/admin.js',
+        front: '../src/assets/entry/entry-client.js',
         vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
     },
     output: {

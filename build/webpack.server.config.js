@@ -1,11 +1,19 @@
+/**
+ * 服务端打包webpack
+ * entry: entry-server.js服务端打包入口文件
+ * */
+const path = require('path')
 const webpack = require('webpack')
 const base = require('./webpack.base.config')
 const merge = require('webpack-merge')
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
+//获取根目录
+const pathRoot = path.resolve(__dirname, '..');
+
 module.exports = merge(base, {
     target: 'node',
-    entry: './src/assets/entry/entry-server.js',
+    entry: path.join(pathRoot, 'src/assets/entry/entry-server.js'),
     output: {
         filename: 'server-bundle.js',
         libraryTarget: 'commonjs2'

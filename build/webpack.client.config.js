@@ -1,5 +1,6 @@
 /**
- * 前端构建，区分开发环境与生产环境
+ * client打包webpack
+ * entry: entry-client.js  client打包入口文件
  * */
 const path = require('path')
 const webpack = require('webpack')
