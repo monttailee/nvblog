@@ -1,10 +1,24 @@
-# blog
-一个使用vue2、koa2、mongodb搭建的单用户博客，支持markdown编辑，文章标签分类，发布文章／撤回发布文章，支持服务端渲染（Server-Side Rendering）
+# nvblog = koa2.x + vue2.x + vuex2.x + vue-router2.x ssr
+使用vue2、koa2、mongodb实现的spa blog，支持markdown编辑，文章标签分类/发布／撤回，支持Server-Side Rendering
 
-## server目录结构
-### controllers
-项目控制器存放目录：接收请求，处理逻辑
-### dbhelper
-数据库crud操作的封装
-### models
-对应数据库表表结构
+# 项目结构
+## src  client端
+- **src下每个目录功能都分为`front展示`页面和`admin文章管理`页面**
+- **front使用 ssr**
+- **admin没有使用ssr，只是普通client编译**
+- **编辑器使用simplemde**
+- **引入async-await**
+
+## server node端
+- **使用mongodb的模型对象mongoose**
+- **auth验证使用jwt**
+- **引入async-await**
+
+## build
+- **webpack配置**
+
+## dist
+- **生成资源目录**
+
+# ssr 科普
+
