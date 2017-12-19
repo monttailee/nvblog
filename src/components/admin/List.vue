@@ -61,7 +61,8 @@
                 'getAllArticles',
                 'getAllTags',
                 'getCurrentArticle',
-                'deleteTag'
+                'deleteTag',
+                'deleteArticle'
             ]),
             ...mapMutations({
                 setAllPage: 'SET_ALL_PAGE',
@@ -69,25 +70,25 @@
                 toggleSelect: 'TOGGLE_SELECT_TAG'
             }),
             toggleSelectFn(id) {
-                this.toggleSelect(id);
+                this.toggleSelect(id)
             },
             switchArticle(index) {
                 if (!this.currentArticle.save) {
-                    this.$message.error('请先保存当前文章');
-                    return;
+                    this.$message.error('请先保存当前文章')
+                    return
                 }
-                this.getCurrentArticle(index);
+                this.getCurrentArticle(index)
             },
             createArticle() {
-                this.getCurrentArticle(-1);
+                this.getCurrentArticle(-1)
             },
-            deleteArticle() {
+            delArticle() {
                 this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$store.dispatch('deleteArticle', {
+                    this.deleteArticle({
                         id: this.currentArticle._id,
                         index: this.currentArticle.index
                     }).then((res) => {
@@ -95,18 +96,12 @@
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
-                            });
+                            })
                         }
                     }).catch((err) => {
-                        console.log(err)
                         this.$message.error(err.response.data.error)
                     })
-                }).catch(() => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: '已取消删除'
-                    // });
-                });
+                })
             },
             deleteTagFn(id) {
                 this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
@@ -114,52 +109,37 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteTag({
-                        id
-                    }).then((res) => {
+                    this.deleteTag({id}).then((res) => {
                         if (res.data.success) {
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
-                            });
-                            // this.getAllArticles({
-                            //   tag: this.selectTagArr
-                            // })
+                            })
                         }
                     }).catch((err) => {
-                        console.log(err)
                         this.$message.error(err.response.data.error)
                     })
-                }).catch(() => {
-                    // this.$message({
-                    //   type: 'info',
-                    //   message: '已取消删除'
-                    // });
-                });
+                })
             },
             changePage(cur) {
                 this.getAllArticles({
                     page: cur,
                     tag: this.selectTagArr
-                }).then(res => {
-                    this.getCurrentArticle(0);
-                });
+                }).then((res) => {
+                    this.getCurrentArticle(0)
+                })
             }
         },
         mounted() {//dom构建完成,可以进行ajax操作
             this.getAllArticles().then(res => {
                 console.log("allPage:", this.allPage)
                 console.log("curPage:", this.curPage)
-            });
-            this.getAllTags();
+            })
+            this.getAllTags()
         },
         watch: {
             selectTagArr(val, oldVal) {
-                console.log(val)
-                console.log("change selectTagArr")
-                this.getAllArticles({
-                    tag: val
-                })
+                this.getAllArticles({tag: val})
             }
         }
     }

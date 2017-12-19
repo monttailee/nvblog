@@ -18,8 +18,8 @@
      * commit => mutations,用来触发同步操作的方法,由mapMutations映射
      * dispatch => actions,用来触发异步操作的方法（比如向后台发送请求获取数据,其他使用commit即可）,由mapActions映射
      * */
-    import editor from './Editor.vue'
-    import list from './List.vue'
+    import editor from './Editor'
+    import list from './List'
     import { mapMutations } from 'vuex'
 
     export default {

@@ -95,11 +95,13 @@
                 'createArticle',
                 'publishArticle',
                 'notPublishArticle',
-                'deleteArticle'
+                'deleteArticle',
+                'createTag'
             ]),
             ...mapMutations({
                 clearSelect: 'CLEAR_SELECT_TAG',
-                changeArticle: 'CHANGE_ARTICLE'
+                changeArticle: 'CHANGE_ARTICLE',
+                deleteCurTag: 'DELETE_CURRENT_TAG',
             }),
             createArticleHandle() {
                 this.createArticle({
@@ -220,17 +222,18 @@
                         });
                         return;
                     }
-                    this.$store.dispatch('createTag', {
-                        name: this.articleTag
-                    }).then((res) => {
+                    this.createTag({name: this.articleTag}).then((res) => {
                         if (res.data.success) {
                             this.$message({
                                 message: '创建成功',
                                 type: 'success',
                                 duration: 500
-                            });
-                            this.getAllTags();
+                            })
+
+                            this.getAllTags()
+
                             this.articleTag = ''
+
                             if (this.currentArticle.id !== -1) {
                                 this.saveArticleHandle({})
                             }
@@ -241,21 +244,20 @@
                 }
             },
             deleteCurrentTag(index) {
-                console.log("tagIndex:",index)
                 this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$store.dispatch('deleteCurrentTag', {index}).then((res) => {
+                    this.deleteCurTag({index}).then((res) => {
                         if (this.currentArticle.id !== -1) {
                             this.saveArticleHandle({})
                         }
-                        this.getAllTags();
+                        this.getAllTags()
                     }).catch((err) => {
                         this.$message.error(err)
                     })
-                }).catch(() => {});
+                })
             }
         },
         watch: {
@@ -265,17 +267,15 @@
                 this.articleContent = val.content;
                 this.articleTag = '';
                 if(oldVal.id !== val.id && simplemde.isPreviewActive()) {
-                    simplemde.togglePreview();
+                    simplemde.togglePreview()
                 }
-                simplemde.value(this.articleContent);
+                simplemde.value(this.articleContent)
             },
             articleTitle(val) {
-                // 监听v-model, 假如变化并且不是新建文章则保存
+                //监听v-model, 假如变化并且不是新建文章则保存
                 if (this.currentArticle.title !== val && this.currentArticle.id !== -1) {
                     this.changeArticle()
-                    this.saveArticleHandle({
-                        title: val
-                    })
+                    this.saveArticleHandle({title: val})
                 }
             }
         }

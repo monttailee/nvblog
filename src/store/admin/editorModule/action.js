@@ -18,8 +18,8 @@ export default {
     async getAllArticles({commit, state, dispatch}, {tag = '', page = 1, limit = 0} = {}){
         let res = await getAllArticles(tag, page, limit);
         dealResult(res, () => {
-            commit(GET_ALL_ARTICLES, {articleList: res.data.articleArr, allPage: res.data.allPage, curPage: page});
-            dispatch('getCurrentArticle', 0);
+            commit(GET_ALL_ARTICLES, {articleList: res.data.articleArr, allPage: res.data.allPage, curPage: page})
+            dispatch('getCurrentArticle', 0)
         })
     },
 
@@ -46,7 +46,7 @@ export default {
                 tags: state.articleList[index].tags
             }
         }
-        commit(GET_CURRENT_ARTICLE, article);
+        commit(GET_CURRENT_ARTICLE, article)
     },
 
     changeArticle({commit, state}){
@@ -61,40 +61,42 @@ export default {
     },
 
     async publishArticle({commit, state}, {id}){
-        let res = await publishArticle(id)
-        dealResult(res, () => commit(PUBLISH_ARTICLE, id))
+      let res = await publishArticle(id)
+      dealResult(res, () => commit(PUBLISH_ARTICLE, id))
 
       return res
     },
 
     async notPublishArticle({commit, state}, {id}){
-        let res = await notPublishArticle(id)
-        dealResult(res, () => commit(NOT_PUBLISH_ARTICLE, id))
+      let res = await notPublishArticle(id)
+      dealResult(res, () => commit(NOT_PUBLISH_ARTICLE, id))
 
       return res
     },
 
     async deleteArticle({commit, state}, {id, index}){
-        let res = await deleteArticle(id);
-        dealResult(res, () => {
-            if (state.articleList.length <= 1) {
-                let article = {
-                    id: -1,
-                    index: 0,
-                    title: '',
-                    content: '',
-                    save: false,
-                    publish: false
-                }
-                commit(GET_CURRENT_ARTICLE, article)
-            }
-        })
+      let res = await deleteArticle(id);
+      dealResult(res, () => {
+        if (state.articleList.length <= 1) {
+          let article = {
+              id: -1,
+              index: 0,
+              title: '',
+              content: '',
+              save: false,
+              publish: false
+          }
+          commit(GET_CURRENT_ARTICLE, article)
+        }
+      })
+
       return res
     },
 
     async createTag({commit, state}, {name}){
-        let res = await createTag(name);
+        let res = await createTag(name)
         dealResult(res, () => commit(CREATE_TAG, res.data.tag))
+        return res
     },
 
     async getAllTags({commit, state}){
@@ -108,11 +110,13 @@ export default {
     },
 
     async deleteTag({commit, state}, {id}){
-        let res = await deleteTag(id);
-        dealResult(res, () => commit(DELETE_TAG, id))
+      let res = await deleteTag(id);
+      dealResult(res, () => commit(DELETE_TAG, id))
+
+      return res
     },
 
     async deleteCurrentTag({commit, state}, {index}){
-        commit(DELETE_CURRENT_TAG, index)
+        return commit(DELETE_CURRENT_TAG, index)
     }
 }

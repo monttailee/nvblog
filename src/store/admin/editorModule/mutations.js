@@ -4,53 +4,53 @@ import { CREATE_ARTICLE, SAVE_ARTICLE, PUBLISH_ARTICLE, GET_ALL_ARTICLES, GET_CU
 
 export default {
     [CREATE_ARTICLE](state, article) {
-        state.articleList.unshift(article);
-        state.currentArticle = article;
+        state.articleList.unshift(article)
+        state.currentArticle = article
     },
     [SAVE_ARTICLE](state, { id, article }) {
-        state.currentArticle.save = true;
+        state.currentArticle.save = true
         let now = state.articleList.find(p => p.id === id)
         if (now) {
-            now.title = article.title;
-            now.content = article.content;
-            now.abstract = article.abstract;
-            now.tags = article.tags;
-            now.lastEditTime = article.lastEditTime;
+            now.title = article.title
+            now.content = article.content
+            now.abstract = article.abstract
+            now.tags = article.tags
+            now.lastEditTime = article.lastEditTime
         }
     },
     [PUBLISH_ARTICLE](state) {
-        state.currentArticle.publish = true;
+        state.currentArticle.publish = true
     },
     [GET_ALL_ARTICLES](state, { articleList, allPage, curPage }) {
-        state.articleList = articleList;
-        state.allPage = allPage;
-        state.curPage = curPage;
+        state.articleList = articleList
+        state.allPage = allPage
+        state.curPage = curPage
     },
     [GET_CURRENT_ARTICLE](state, article) {
-        state.currentArticle = article;
+        state.currentArticle = article
     },
     [CHANGE_ARTICLE](state) {
-        state.currentArticle.save = false;
+        state.currentArticle.save = false
     },
     [PUBLISH_ARTICLE](state, id) {
-        state.currentArticle.publish = true;
-        state.articleList.find(p => p.id === id).publish = true;
+        state.currentArticle.publish = true
+        state.articleList.find(p => p.id === id).publish = true
     },
     [NOT_PUBLISH_ARTICLE](state, id) {
-        state.currentArticle.publish = false;
-        state.articleList.find(p => p.id === id).publish = false;
+        state.currentArticle.publish = false
+        state.articleList.find(p => p.id === id).publish = false
     },
     [DELETE_ARTICLE](state, index) {
         state.articleList.splice(index, 1)
         if (state.articleList.length === 0) {
-            return;
+            return
         }
         if (index > state.articleList.length - 1) {
-            index = state.articleList.length - 1;
+            index = state.articleList.length - 1
         }
-        state.currentArticle = state.articleList[index];
-        state.currentArticle.index = index;
-        state.currentArticle.save = true;
+        state.currentArticle = state.articleList[index]
+        state.currentArticle.index = index
+        state.currentArticle.save = true
     },
     [CREATE_TAG](state, tag) {
         state.currentArticle.tags.push(tag)
@@ -61,13 +61,13 @@ export default {
     },
     [DELETE_TAG](state, id) {
         state.tagList = state.tagList.filter((e) => {
-            return e.id !== id;
+            return e.id !== id
         })
         state.currentArticle.tags = state.currentArticle.tags.filter((e) => {
-            return e.id !== id;
+            return e.id !== id
         })
         state.selectTagArr = state.selectTagArr.filter((e) => {
-            return e !== id;
+            return e !== id
         })
 
     },
@@ -75,24 +75,24 @@ export default {
         state.currentArticle.tags.splice(index, 1)
     },
     [GET_ALL_TAGS](state, tagList) {
-        state.tagList = tagList;
+        state.tagList = tagList
     },
     [SET_ALL_PAGE](state, allPage) {
-        state.allPage = allPage;
+        state.allPage = allPage
     },
     [SET_CUR_PAGE](state, curPage) {
-        state.curPage = curPage;
+        state.curPage = curPage
     },
     [TOGGLE_SELECT_TAG](state, id) {
         if (!state.selectTagArr.includes(id)) {
-            state.selectTagArr.push(id);
+            state.selectTagArr.push(id)
         } else {
             state.selectTagArr = state.selectTagArr.filter((e) => {
-                return e !== id;
+                return e !== id
             })
         }
     },
     [CLEAR_SELECT_TAG](state) {
-        state.selectTagArr = [];
+        state.selectTagArr = []
     },
 }
