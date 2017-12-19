@@ -3,7 +3,7 @@ import actions from './action'
 
 const state = {
     token: sessionStorage.getItem('vue-blog-token')
-};
+}
 
 export default {
     state,

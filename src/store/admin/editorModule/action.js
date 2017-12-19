@@ -9,18 +9,28 @@ import { dealResult } from 'utils/index'
 
 export default {
     async createArticle({commit, state}, {title, content, publish, tags}){
-      let res = await createArticle(title, content, publish, tags)
-      dealResult(res, () => commit(CREATE_ARTICLE, {save: true}))
+      try{
+        let res = await createArticle(title, content, publish, tags)
+        dealResult(res, () => commit(CREATE_ARTICLE, {save: true}))
 
-      return res
+        return res
+      }catch (err){
+        return err
+      }
     },
 
     async getAllArticles({commit, state, dispatch}, {tag = '', page = 1, limit = 0} = {}){
+      try{
         let res = await getAllArticles(tag, page, limit);
         dealResult(res, () => {
-            commit(GET_ALL_ARTICLES, {articleList: res.data.articleArr, allPage: res.data.allPage, curPage: page})
-            dispatch('getCurrentArticle', 0)
+          commit(GET_ALL_ARTICLES, {articleList: res.data.articleArr, allPage: res.data.allPage, curPage: page})
+          dispatch('getCurrentArticle', 0)
         })
+
+        return res
+      }catch (err){
+        return err
+      }
     },
 
     async getCurrentArticle({commit, state}, index){
@@ -94,19 +104,21 @@ export default {
     },
 
     async createTag({commit, state}, {name}){
-        let res = await createTag(name)
-        dealResult(res, () => commit(CREATE_TAG, res.data.tag))
-        return res
+      let res = await createTag(name)
+      dealResult(res, () => commit(CREATE_TAG, res.data.tag))
+      return res
     },
 
     async getAllTags({commit, state}){
-        let res = await getAllTags();
-        dealResult(res, () => commit(GET_ALL_TAGS, res.data.tagArr))
+      let res = await getAllTags()
+      dealResult(res, () => commit(GET_ALL_TAGS, res.data.tagArr))
     },
 
     async modifyTag({commit, state}, {id, name}){
-        let res = await modifyTag(id, name);
-        dealResult(res, () => commit(MODIFY_TAG, {id, name}))
+      let res = await modifyTag(id, name)
+      dealResult(res, () => commit(MODIFY_TAG, {id, name}))
+
+      return res
     },
 
     async deleteTag({commit, state}, {id}){
