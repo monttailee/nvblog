@@ -59,6 +59,7 @@
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "*",
+    "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.28.0",
     "jsonwebtoken": "^7.3.0",
     "nodemon": "^1.11.0",
