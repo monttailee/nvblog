@@ -1,15 +1,17 @@
 /**
  * 基础webpack: 抽取构建公用部分
- * 注：ssr(服务器端渲染)构建分为两部分：前端 + 服务器端
+ * 注：ssr(服务器端渲染)分为两部分：前端 + 服务器端
  * */
 const path = require('path')
+const webpack = require('webpack')
+
 const isPro = process.env.NODE_ENV === 'production'
 
 module.exports = {
+    devtool: isPro ? '#source-map' : '#cheap-module-eval-source-map',
     entry: {
-        admin: '../src/assets/entry/admin.js',
-        front: '../src/assets/entry/entry-client.js',
-        vendor: ['vue', 'vue-router', 'vuex', 'vuex-router-sync', 'axios']
+      admin: './src/assets/entry/admin.js',
+      front: './src/assets/entry/entry-client.js'
     },
     output: {
       path: path.resolve(__dirname, '../dist'),
@@ -17,7 +19,6 @@ module.exports = {
       filename: '[name].js'
     },
     resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules'],//解析模块时应该搜索的目录
         extensions: ['.js', '.vue', '.json'],
         alias: {//引用别名
             'entry': path.resolve(__dirname, '../src/assets/entry'),
@@ -38,50 +39,52 @@ module.exports = {
     externals: {
         'simplemde': 'SimpleMDE'
     },
-    plugins: [],
     module: {
-        rules: [
-            {
-              test: /\.(js|vue)$/,
-              loader: 'eslint-loader',
-              enforce: 'pre',
-              include: [path.join(__dirname, '../src')],
-              options: {
-                  formatter: require('eslint-friendly-formatter')
-              }
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                  loaders: require('./styleLoader').cssLoaders({
-                    sourceMap: isPro,
-                    extract: isPro
-                  }),
-                  postcss: [require('autoprefixer')({ browsers: ['last 3 versions'] })]
-                }
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'images/[name].[hash:7].[ext]'
-                }
-            },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: 'fonts/[name].[hash:7].[ext]'
-                }
-            }
-        ]
-    }
+      rules: [
+        {
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          enforce: 'pre',
+          exclude: /node_modules/
+        },
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+          options: {
+            loaders: require('./styleLoader').cssLoaders({
+              sourceMap: isPro,
+              extract: isPro
+            }),
+            preserveWhitespace: false,
+            postcss: [
+              require('autoprefixer')({
+                browsers: ['last 3 versions']
+              })
+            ]
+          }
+        },
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/
+        },
+        {
+          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: 'images/[name].[hash:7].[ext]'
+          }
+        },
+        {
+          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: 'fonts/[name].[hash:7].[ext]'
+          }
+        }
+      ]
+    },
+    plugins: []
 }

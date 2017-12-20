@@ -33,7 +33,7 @@ export default context => {
       isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)
       // 在所有的 preFetch 钩子 resolved 后
       // 我们的 store 现在有了用于渲染应用的所有 state
-      // 将这些 state 暴露给 context，并请求处理内联在 HTML 响应中的 state
+      // 放到Context中, 达到前后端共享数据的目的
       // 状态将自动序列化为 `window.__INITIAL_STATE__`，并注入 HTML
 
       context.state = store.state
