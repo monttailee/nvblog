@@ -1,5 +1,5 @@
 # nvblog = koa2.x + vue2.x + vuex2.x + (vue-router2.x) + webpack2.x
-使用vue2、koa2、mongodb实现的spa blog，支持markdown编辑，文章标签分类/发布／撤回，支持Server-Side Rendering
+使用vue2、koa2、mongodb实现的spa blog，支持markdown编辑，文章标签分类/发布／撤回，支持 热更新 及 Server-Side Rendering
 
 ## 项目结构
 ### src  client端
