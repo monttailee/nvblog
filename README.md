@@ -26,15 +26,15 @@
 ![Alt text](https://cloud.githubusercontent.com/assets/499550/17607895/786a415a-5fee-11e6-9c11-45a2cfdf085c.png)
 ```
 需要两份webpack打包入口: server-entry && client-entry
-server-entry 和 client-entry 需要import你的vue所有组件[app/store/router]
 [切记：需要ssr的component ajax请求不能放在vue中的mounted中获取，因为这样和客户端渲染没什么区别]
 
-后端从vuex里面取到数据(调用匹配的路由组件的 preFetch 钩子)之后，对<template>里面的HTML使用vue的语法进渲染，
-最终渲染成真正的HTML，对<style>里面的内容，使用loader，抽取成css，所以服务端渲染的成果是HTML+CSS；
 
-前端也是从vuex里面取到数据，前端的渲染主要做2件事：
-1.拿到数据，使用virtual-dom进行预渲染，然后和服务端渲染出来的进行比对，比对两边渲染的内容是不是一致的；
-2.对DOM元素的事件进行绑定(vue-ssr不能渲染出js)，事件在这块进行的处理
+客户端发起请求，服务器根据请求地址获得匹配的组件，再调用匹配到的组件返回 Promise (官方是preFetch方法)来拿到需要的数据,
+将<script>window.__initial_state=data</script>写入网页，最后将服务端渲染好的网页返回回去,服务端渲染的成果是HTML+CSS
+
+客户端将vuex写入的 __initial_state__ 替换为当前的全局状态树：
+ 1⃣ 再用这个状态树去检查服务端渲染好的数据有没有问题。遇到没被服务端渲染的组件，再去发异步请求拿数据
+ 2⃣ 对DOM元素的事件进行绑定，事件在这块进行处理
 ```
 
 ## Build Setup
