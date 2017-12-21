@@ -3,7 +3,7 @@
  * */
 import { app, router, store } from './front'
 
-//replaceState的作用是替换整个 rootState
+//如果在服务端渲染时已经写入状态，则将vuex的状态进行替换
 if (window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
 }

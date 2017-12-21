@@ -110,8 +110,8 @@ let commonPlugins = [
     })
   } else{
     Object.keys(base.entry).forEach(function (name) {
-      //如果refresh有问题 则此处需改
-      base.entry[name] = ['webpack-hot-middleware/client?reload=true'].concat(base.entry[name])
+      //base.entry[name] = ['webpack-hot-middleware/client?reload=true'].concat(base.entry[name])
+      base.entry[name] = ['./build/dev-client'].concat(base.entry[name])
     })
 
     proConfig = merge(base, {
