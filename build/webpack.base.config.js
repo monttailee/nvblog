@@ -4,19 +4,17 @@
  * */
 const path = require('path')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const isPro = process.env.NODE_ENV === 'production'
 
 module.exports = {
-    devtool: isPro ? '#source-map' : '#cheap-module-eval-source-map',
-    entry: {
-      admin: './src/assets/entry/admin.js',
-      front: './src/assets/entry/entry-client.js'
-    },
+    devtool: isPro ? false : '#cheap-module-source-map',
     output: {
       path: path.resolve(__dirname, '../dist'),
       publicPath: '/dist/',
-      filename: '[name].js'
+      filename: '[name].[chunkhash].js'
     },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
@@ -36,16 +34,16 @@ module.exports = {
             'css': path.resolve(__dirname, '../src/assets/css'),
         }
     },
-    externals: {
-        'simplemde': 'SimpleMDE'
-    },
     module: {
       rules: [
         {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           enforce: 'pre',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          options: {
+            formatter: require('eslint-friendly-formatter')
+          }
         },
         {
           test: /\.vue$/,
@@ -86,5 +84,14 @@ module.exports = {
         }
       ]
     },
-    plugins: []
+    plugins: isPro
+      ? [
+      new webpack.optimize.UglifyJsPlugin({
+        compress: { warnings: false }
+      }),
+      new ExtractTextPlugin({
+        filename: '[name].[chunkhash].css'
+      })
+    ]
+      : [new FriendlyErrorsPlugin()]
 }
