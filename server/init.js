@@ -25,30 +25,24 @@ const routerApi = require('./router')
 mongodb.connect()
 
 //创建渲染器，开启缓存
-let renderer
-if (isProd) {
-  //生产环境,bundle是构建完成的正式文件
-  const bundle = require('../dist/vue-ssr-bundle.json')
-  const template = fs.readFileSync(resolve('../dist/front.html'), 'utf-8')
-  renderer = createRenderer(bundle, template)
-
-} else {
-  //开发环境,bundle会在改变之后重新回调生成
-  require('../build/setup-dev-server')(app, (bundle, template) => {
-    renderer = createRenderer(bundle, template)
-  })
-}
-
-function createRenderer(bundle, template) {
-    return createBundleRenderer(bundle, {
-        template,
-        cache: require('lru-cache')({
-            max: 1000,
-            maxAge: 1000 * 60 * 15
-        }),
-        runInNewContext: false
+const template = fs.readFileSync(resolve('./src/front.template.html'), 'utf-8')
+function createRenderer(bundle, options) {
+  return createBundleRenderer(
+    bundle,
+    Object.assign(options, {
+      template,
+      cache: require('lru-cache')({
+        max: 1000,
+        maxAge: 1000 * 60 * 15
+      }),
+      basedir: resolve('./dist'),
+      runInNewContext: false
     })
+  )
 }
+
+let renderer
+let readyPromise
 
 //icon
 app.use(favicon(resolve('../dist/images/logo.png')))
@@ -56,9 +50,6 @@ app.use(favicon(resolve('../dist/images/logo.png')))
 //中间件
 app.use(middleware())
 onerror(app)
-
-//静态资源
-app.use(staticServer(resolve('../dist')))
 
 //路由
 app.use(routerApi())
@@ -75,6 +66,21 @@ app.use(convert(historyApiFallback({
     path: /^\/admin/
 })))
 
+if (isProd) {
+  const bundle = require('./dist/vue-ssr-server-bundle.json')
+  const clientManifest = require('./dist/vue-ssr-client-manifest.json')
+  renderer = createRenderer(bundle, {
+    clientManifest
+  })
+} else {
+  readyPromise = require('./build/setup-dev-server')(app, (bundle, options) => {
+    renderer = createRenderer(bundle, options)
+  })
+}
+
+//静态资源
+app.use(staticServer(resolve('../dist')))
+
 //ssr渲染页面内容
 router.get('*', async(ctx, next) => {
     if (!renderer) {
@@ -83,7 +89,6 @@ router.get('*', async(ctx, next) => {
 
     let res = ctx.res
     let req = ctx.req
-
     ctx.type = 'html'
     const s = Date.now()
     let context = { url: req.url }
@@ -101,15 +106,12 @@ router.get('*', async(ctx, next) => {
         })
       })
     }
-
     ctx.body = await renderHtml()
 })
 
-app
-    .use(router.routes())
-    .use(router.allowedMethods())
+app.use(router.routes()).use(router.allowedMethods())
 
-const port = ENV_CONFIG.app.port || 3000
+const port = ENV_CONFIG.app.port || 8089
 app.listen(port, () => {
     console.log('Koa2 server is running at http://localhost:' + port)
 })
