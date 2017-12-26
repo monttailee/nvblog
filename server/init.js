@@ -41,9 +41,6 @@ function createRenderer(bundle, options) {
   )
 }
 
-let renderer
-let readyPromise
-
 //icon
 app.use(favicon(resolve('../dist/images/logo.png')))
 
@@ -65,6 +62,9 @@ app.use(convert(historyApiFallback({
     ],
     path: /^\/admin/
 })))
+
+let renderer
+let readyPromise
 
 if (isProd) {
   const bundle = require('./dist/vue-ssr-server-bundle.json')
