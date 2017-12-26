@@ -29,8 +29,9 @@
 [切记：需要ssr的component ajax请求不能放在vue中的mounted中获取，因为这样和客户端渲染没什么区别]
 
 
-客户端发起请求，服务器根据请求地址获得匹配的组件，再调用匹配到的组件返回 Promise (官方是preFetch方法)来拿到需要的数据,
-将<script>window.__initial_state=data</script>写入网页，最后将服务端渲染好的网页返回回去,服务端渲染的成果是HTML+CSS
+客户端发起请求，服务器根据请求地址获得匹配的组件，再调用匹配到的组件返回Promise(preFetch方法)来拿到需要的数据,
+将<script>window.__initial_state=data</script>写入网页，最后将服务端渲染好的网页返回,
+服务端渲染的成果是HTML+CSS
 
 客户端将vuex写入的 __initial_state__ 替换为当前的全局状态树：
  1⃣ 再用这个状态树去检查服务端渲染好的数据有没有问题。遇到没被服务端渲染的组件，再去发异步请求拿数据
