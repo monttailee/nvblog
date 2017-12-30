@@ -2,7 +2,7 @@ import fs from 'fs'
 let config = {
     app: {
         port: 5510,
-        baseApi: '/routers'
+        baseApi: '/api'
     },
     mongodb: {
         url: 'mongodb://localhost:27017/vue-blog-pro'

@@ -19,7 +19,7 @@ const router = require('koa-router')()
 const historyApiFallback = require('./middleware/historyApiFallback')
 const mongodb = require('./dbhelper/mongodb')
 const middleware = require('./middleware')
-const routerApi = require('./router')
+const api = require('./routes')
 
 //connect mongodb
 mongodb.connect()
@@ -49,7 +49,7 @@ app.use(middleware())
 onerror(app)
 
 //路由
-app.use(routerApi())
+app.use(api.routes(), api.allowedMethods())
 
 //路由admin被拦截走historyApiFallback,不用服务端渲染
 // */admin 或者 */admin/login 均渲染admin.html
